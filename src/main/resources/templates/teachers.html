@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Teachers List</title>
 </head>
 <body>
-$END$
+
+<h1>Teachers List</h1>
+
+<ul>
+  <li th:each="teacher : ${teachers}">
+    <a th:href="@{'/teachers/' + ${teacher.id}}">
+      <strong th:text="${teacher.firstName}"></strong>
+      <strong th:text="${teacher.lastName}"></strong>
+    </a>
+    –
+    <span th:text="${teacher.language}">Language</span>
+    –
+    <span th:text="${teacher.city}">City</span>
+  </li>
+</ul>
+
+<p><a href="/">← Back to home page</a></p>
+
 </body>
 </html>

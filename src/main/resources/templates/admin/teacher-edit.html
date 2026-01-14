@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Edit Teacher</title>
 </head>
 <body>
-$END$
+
+<h1>Edit Teacher</h1>
+
+<form th:action="@{|/admin/teachers/${teacherId}/edit|}"
+      th:object="${teacherForm}"
+      method="post">
+
+  <div>
+    <label>First Name:</label>
+    <input th:field="*{firstName}" type="text" />
+    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Last Name:</label>
+    <input th:field="*{lastName}" type="text" />
+    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Language taught:</label>
+    <input th:field="*{language}" type="text" />
+    <div th:if="${#fields.hasErrors('language')}" th:errors="*{language}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>City:</label>
+    <input th:field="*{city}" type="text" />
+    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Username:</label>
+    <input th:field="*{username}" type="text" />
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input th:field="*{email}" type="email" />
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Phone:</label>
+    <input th:field="*{phone}" type="text" />
+    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Nationality:</label>
+    <input th:field="*{nationality}" type="text" />
+    <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}" style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Native language:</label>
+    <input th:field="*{nativeLanguage}" type="text" />
+    <div th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}" style="color:red"></div>
+  </div>
+
+  <button type="submit">Save changes</button>
+</form>
+
+<p><a href="/admin/teachers">← Back to admin teachers list</a></p>
+
 </body>
 </html>

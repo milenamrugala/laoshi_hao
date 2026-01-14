@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title th:text="'Teacher Profile – ' + ${teacher.firstName} + ${teacher.lastName}">Teacher Profile</title>
 </head>
 <body>
-$END$
+
+<h1>
+  <span th:text="${teacher.firstName}"></span>
+  <span th:text="${teacher.lastName}"></span>
+</h1>
+
+<p>
+  <strong>Language taught:</strong>
+  <span th:text="${teacher.language}">language</span>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <span th:text="${teacher.city}">city</span>
+</p>
+
+<p th:if="${teacher.nationality != null}">
+  <strong>Nationality:</strong>
+  <span th:text="${teacher.nationality}">nationality</span>
+</p>
+
+<p th:if="${teacher.nativeLanguage != null}">
+  <strong>Native language:</strong>
+  <span th:text="${teacher.nativeLanguage}">native language</span>
+</p>
+
+<p th:if="${teacher.phone != null}">
+  <strong>Phone:</strong>
+  <span th:text="${teacher.phone}">phone</span>
+</p>
+
+<p th:if="${teacher.email != null}">
+  <strong>Email:</strong>
+  <span th:text="${teacher.email}">email</span>
+</p>
+
+<p>
+  <a th:href="@{'/teachers/' + ${teacher.id} + '/message'}">
+    Contact this teacher
+  </a>
+</p>
+
+<p>
+  <a th:href="@{'/teachers/' + ${teacher.id} + '/booking'}">
+    Book a lesson with this teacher
+  </a>
+</p>
+
+<p>
+  <a href="/teachers">← Back to teachers list</a>
+</p>
+<p>
+  <a href="/">← Back to home page</a>
+</p>
+
 </body>
 </html>

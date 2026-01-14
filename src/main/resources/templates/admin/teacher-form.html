@@ -1,10 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Add Teacher</title>
 </head>
 <body>
-$END$
+
+<h1>Add New Teacher</h1>
+
+<form th:action="@{/admin/teachers}" th:object="${teacherForm}" method="post">
+
+  <div>
+    <label>First Name:</label>
+    <input th:field="*{firstName}" type="text" placeholder="Magdalena" />
+    <div th:if="${#fields.hasErrors('firstName')}"
+         th:errors="*{firstName}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Last Name:</label>
+    <input th:field="*{lastName}" type="text" placeholder="Nowak" />
+    <div th:if="${#fields.hasErrors('lastName')}"
+         th:errors="*{lastName}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Language taught:</label>
+    <input th:field="*{language}" type="text" placeholder="English" />
+    <div th:if="${#fields.hasErrors('language')}"
+         th:errors="*{language}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>City:</label>
+    <input th:field="*{city}" type="text" placeholder="Warsaw" />
+    <div th:if="${#fields.hasErrors('city')}"
+         th:errors="*{city}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Username:</label>
+    <input th:field="*{username}" type="text" placeholder="magda.eng" />
+    <div th:if="${#fields.hasErrors('username')}"
+         th:errors="*{username}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input th:field="*{email}" type="email" placeholder="magda@example.com" />
+    <div th:if="${#fields.hasErrors('email')}"
+         th:errors="*{email}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Phone:</label>
+    <input th:field="*{phone}" type="text" placeholder="+48 123456789" />
+    <div th:if="${#fields.hasErrors('phone')}"
+         th:errors="*{phone}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Nationality:</label>
+    <input th:field="*{nationality}" type="text" placeholder="Polish" />
+    <div th:if="${#fields.hasErrors('nationality')}"
+         th:errors="*{nationality}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Native language:</label>
+    <input th:field="*{nativeLanguage}" type="text" placeholder="Polish" />
+    <div th:if="${#fields.hasErrors('nativeLanguage')}"
+         th:errors="*{nativeLanguage}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <button type="submit">Save Teacher</button>
+  </div>
+</form>
+
+<p><a href="/admin/teachers">← Back to admin teacher list</a></p>
+<p><a href="/teachers">← Back to public teachers list</a></p>
+<p><a href="/">← Back to home</a></p>
+
 </body>
 </html>
