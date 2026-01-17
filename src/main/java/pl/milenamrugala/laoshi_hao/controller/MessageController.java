@@ -1,4 +1,4 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -7,17 +7,29 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.milenamrugala.laoshi_hao.form.MessageForm;
+import pl.milenamrugala.laoshi_hao.repository.MessageRepository;
+import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
+import pl.milenamrugala.laoshi_hao.entity.Message;
+import pl.milenamrugala.laoshi_hao.entity.Teacher;
+import pl.milenamrugala.laoshi_hao.entity.Student;
+import pl.milenamrugala.laoshi_hao.repository.StudentRepository;
+
 
 @Controller
 public class MessageController {
 
     private final TeacherRepository teacherRepository;
     private final MessageRepository messageRepository;
+    private final StudentRepository studentRepository;
+
 
     public MessageController(TeacherRepository teacherRepository,
-                             MessageRepository messageRepository) {
+                             MessageRepository messageRepository,
+                             StudentRepository studentRepository) {
         this.teacherRepository = teacherRepository;
         this.messageRepository = messageRepository;
+        this.studentRepository = studentRepository;
     }
 
     @GetMapping("/teachers/{id}/message")
@@ -47,6 +59,19 @@ public class MessageController {
             return "message-form";
         }
 
+// find or create Student by username
+        Student student = studentRepository.findByUsername(messageForm.getStudentUsername())
+                .orElseGet(() -> {
+                    Student s = new Student(
+                            messageForm.getStudentUsername(),
+                            messageForm.getStudentEmail(),
+                            messageForm.getStudentFirstName(),
+                            messageForm.getStudentLastName(),
+                            messageForm.getStudentPhone()
+                    );
+                    return studentRepository.save(s);
+                });
+
         Message message = new Message(
                 teacher,
                 messageForm.getStudentFirstName(),
@@ -56,6 +81,9 @@ public class MessageController {
                 messageForm.getStudentPhone(),
                 messageForm.getContent()
         );
+
+// link to Student entity
+        message.setStudent(student);
 
         messageRepository.save(message);
 

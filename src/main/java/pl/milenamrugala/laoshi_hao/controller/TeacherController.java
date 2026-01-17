@@ -1,9 +1,11 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
+import pl.milenamrugala.laoshi_hao.entity.Teacher;
 
 import java.util.List;
 

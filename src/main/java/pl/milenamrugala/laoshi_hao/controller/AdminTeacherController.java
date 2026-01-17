@@ -1,4 +1,4 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,14 +8,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import pl.milenamrugala.laoshi_hao.form.TeacherForm;
+import pl.milenamrugala.laoshi_hao.repository.BookingRepository;
+import pl.milenamrugala.laoshi_hao.repository.MessageRepository;
+import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
+import pl.milenamrugala.laoshi_hao.entity.Teacher;
+import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 public class AdminTeacherController {
 
     private final TeacherRepository teacherRepository;
+    private final MessageRepository messageRepository;
+    private final BookingRepository bookingRepository;
 
-    public AdminTeacherController(TeacherRepository teacherRepository) {
+    public AdminTeacherController(TeacherRepository teacherRepository,
+                                  MessageRepository messageRepository,
+                                  BookingRepository bookingRepository) {
         this.teacherRepository = teacherRepository;
+        this.messageRepository = messageRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @GetMapping("/admin/teachers")
@@ -62,6 +74,8 @@ public class AdminTeacherController {
         teacher.setPhone(teacherForm.getPhone());
         teacher.setNationality(teacherForm.getNationality());
         teacher.setNativeLanguage(teacherForm.getNativeLanguage());
+        teacher.setCapacity(teacherForm.getCapacity());
+
 
         teacherRepository.save(teacher);
 
@@ -83,6 +97,7 @@ public class AdminTeacherController {
         form.setPhone(teacher.getPhone());
         form.setNationality(teacher.getNationality());
         form.setNativeLanguage(teacher.getNativeLanguage());
+        form.setCapacity(teacher.getCapacity());
 
         model.addAttribute("teacherForm", form);
         model.addAttribute("teacherId", id);
@@ -122,21 +137,30 @@ public class AdminTeacherController {
         teacher.setPhone(teacherForm.getPhone());
         teacher.setNationality(teacherForm.getNationality());
         teacher.setNativeLanguage(teacherForm.getNativeLanguage());
+        teacher.setCapacity(teacherForm.getCapacity());
+
 
         teacherRepository.save(teacher);
 
         return "redirect:/admin/teachers";
     }
 
+    @Transactional
     @PostMapping("/admin/teachers/{id}/delete")
     public String deleteTeacher(@PathVariable Long id) {
 
-        if (!teacherRepository.existsById(id)) {
-            // you could log or handle this differently
-            return "redirect:/admin/teachers";
+        Teacher teacher = teacherRepository.findById(id)
+                .orElse(null);
+
+        if (teacher != null) {
+            // najpierw kasujemy bookings i messages powiązane z tym nauczycielem
+            bookingRepository.deleteByTeacher(teacher);
+            messageRepository.deleteByTeacher(teacher);
+
+            // dopiero potem nauczyciela
+            teacherRepository.delete(teacher);
         }
 
-        teacherRepository.deleteById(id);
         return "redirect:/admin/teachers";
     }
 }
