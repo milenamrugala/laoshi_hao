@@ -1,4 +1,4 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.entity;
 
 import jakarta.persistence.*;
 
@@ -15,19 +15,20 @@ public class Teacher {
     private String language;
     private String city;
 
-    // NEW FIELDS
     @Column(unique = true)
     private String username;
     private String email;
     private String phone;
     private String nationality;
     private String nativeLanguage;
+    private Integer capacity;
 
-    // required by JPA
-    protected Teacher() {
+    @Column(name = "photo_filename")
+    private String photoFilename;
+
+    public Teacher() {
     }
 
-    // existing constructor (kept) – we still use it in seeding and admin form for now
     public Teacher(String firstName, String lastName, String language, String city) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -111,5 +112,21 @@ public class Teacher {
 
     public void setNativeLanguage(String nativeLanguage) {
         this.nativeLanguage = nativeLanguage;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getPhotoFilename() {
+        return photoFilename;
+    }
+
+    public void setPhotoFilename(String photoFilename) {
+        this.photoFilename = photoFilename;
     }
 }

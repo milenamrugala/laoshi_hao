@@ -1,7 +1,9 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import pl.milenamrugala.laoshi_hao.entity.Student;
 
 @Entity
 public class Message {
@@ -20,6 +22,9 @@ public class Message {
     private String studentUsername;
     private String studentEmail;
     private String studentPhone;
+
+    @ManyToOne
+    private Student student;
 
     // the message itself
     @Column(length = 2000)
@@ -55,6 +60,14 @@ public class Message {
 
     public Teacher getTeacher() {
         return teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getStudentFirstName() {
