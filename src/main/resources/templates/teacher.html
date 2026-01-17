@@ -2,63 +2,110 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title th:text="'Teacher Profile – ' + ${teacher.firstName} + ${teacher.lastName}">Teacher Profile</title>
+  <title th:text="'Teacher Profile – ' + ${teacher.firstName} + ' ' + ${teacher.lastName}">Teacher Profile</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<h1>
-  <span th:text="${teacher.firstName}"></span>
-  <span th:text="${teacher.lastName}"></span>
-</h1>
+<div class="site-wrapper">
+  <div th:replace="fragments/header :: header"></div>
 
-<p>
-  <strong>Language taught:</strong>
-  <span th:text="${teacher.language}">language</span>
-</p>
+  <main class="site-main">
+    <div class="dashboard-wrap">
 
-<p>
-  <strong>City:</strong>
-  <span th:text="${teacher.city}">city</span>
-</p>
+      <!-- Header jak w dashboardzie -->
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Teacher profile</h1>
+          <p class="dashboard-subtitle">
+            Meet
+            <strong th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">Teacher Name</strong>
+          </p>
+        </div>
 
-<p th:if="${teacher.nationality != null}">
-  <strong>Nationality:</strong>
-  <span th:text="${teacher.nationality}">nationality</span>
-</p>
+        <div class="dashboard-actions">
+          <a class="btn" th:href="@{'/teachers'}">Back to teachers</a>
+        </div>
+      </div>
 
-<p th:if="${teacher.nativeLanguage != null}">
-  <strong>Native language:</strong>
-  <span th:text="${teacher.nativeLanguage}">native language</span>
-</p>
+      <!-- Główna karta profilu -->
+      <div class="kawaii-card">
+        <div class="profile-row" style="align-items:flex-start;">
 
-<p th:if="${teacher.phone != null}">
-  <strong>Phone:</strong>
-  <span th:text="${teacher.phone}">phone</span>
-</p>
+          <div class="profile-avatar" style="width:120px;height:120px;border-radius:24px;">
+            <img th:if="${teacher.photoFilename != null}"
+                 th:src="@{'/teacher-photos/' + ${teacher.photoFilename}}"
+                 th:alt="'Photo of ' + ${teacher.firstName} + ' ' + ${teacher.lastName}">
+            <img th:if="${teacher.photoFilename == null}"
+                 th:src="@{/img/default-avatar.png}"
+                 alt="No photo">
+          </div>
 
-<p th:if="${teacher.email != null}">
-  <strong>Email:</strong>
-  <span th:text="${teacher.email}">email</span>
-</p>
+          <div class="profile-meta">
+            <h2 style="margin:0 0 8px 0; font-size:20px;">
+              <span th:text="${teacher.firstName}">First</span>
+              <span th:text="${teacher.lastName}">Last</span>
+            </h2>
 
-<p>
-  <a th:href="@{'/teachers/' + ${teacher.id} + '/message'}">
-    Contact this teacher
-  </a>
-</p>
+            <p>
+              <strong>Language taught:</strong>
+              <span th:text="${teacher.language}">language</span>
+            </p>
 
-<p>
-  <a th:href="@{'/teachers/' + ${teacher.id} + '/booking'}">
-    Book a lesson with this teacher
-  </a>
-</p>
+            <p>
+              <strong>City:</strong>
+              <span th:text="${teacher.city}">city</span>
+            </p>
 
-<p>
-  <a href="/teachers">← Back to teachers list</a>
-</p>
-<p>
-  <a href="/">← Back to home page</a>
-</p>
+            <p th:if="${teacher.nationality != null}">
+              <strong>Nationality:</strong>
+              <span th:text="${teacher.nationality}">nationality</span>
+            </p>
+
+            <p th:if="${teacher.nativeLanguage != null}">
+              <strong>Native language:</strong>
+              <span th:text="${teacher.nativeLanguage}">native language</span>
+            </p>
+
+            <p th:if="${teacher.phone != null}">
+              <strong>Phone:</strong>
+              <span th:text="${teacher.phone}">phone</span>
+            </p>
+
+            <p th:if="${teacher.email != null}">
+              <strong>Email:</strong>
+              <span th:text="${teacher.email}">email</span>
+            </p>
+
+            <div class="badge-row" style="margin-top:14px;">
+              <a class="btn btn-primary" th:href="@{'/teachers/' + ${teacher.id} + '/message'}">Contact 💌</a>
+              <a class="btn" th:href="@{'/teachers/' + ${teacher.id} + '/booking'}">Book a lesson</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+  setInterval(createSakura, 800);
+</script>
 
 </body>
 </html>

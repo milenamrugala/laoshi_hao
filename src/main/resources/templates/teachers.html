@@ -2,26 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Teachers List</title>
+  <title>Teachers – Laoshi Hao</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<h1>Teachers List</h1>
+<div class="site-wrapper">
 
-<ul>
-  <li th:each="teacher : ${teachers}">
-    <a th:href="@{'/teachers/' + ${teacher.id}}">
-      <strong th:text="${teacher.firstName}"></strong>
-      <strong th:text="${teacher.lastName}"></strong>
-    </a>
-    –
-    <span th:text="${teacher.language}">Language</span>
-    –
-    <span th:text="${teacher.city}">City</span>
-  </li>
-</ul>
+  <!-- HEADER -->
+  <div th:replace="fragments/header :: header"></div>
 
-<p><a href="/">← Back to home page</a></p>
+  <!-- MAIN -->
+  <main class="site-main">
+
+    <h1>Teachers</h1>
+
+    <ul class="teacher-list">
+      <li class="teacher-card" th:each="teacher : ${teachers}">
+
+        <!-- PHOTO / PLACEHOLDER -->
+        <a th:href="@{'/teachers/' + ${teacher.id}}" class="teacher-link">
+          <div class="teacher-photo-wrapper">
+            <img th:if="${teacher.photoFilename != null}"
+                 th:src="@{'/teacher-photos/' + ${teacher.photoFilename}}"
+                 th:alt="'Photo of ' + ${teacher.firstName} + ' ' + ${teacher.lastName}">
+            <span th:if="${teacher.photoFilename == null}">
+                            No photo
+                        </span>
+          </div>
+
+          <div class="teacher-name"
+               th:text="${teacher.firstName + ' ' + teacher.lastName}">
+            Teacher Name
+          </div>
+        </a>
+
+        <div>
+          <span th:text="${teacher.language}">Language</span>
+          ·
+          <span th:text="${teacher.city}">City</span>
+        </div>
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+</div>
+
+<!-- SAKURA LAYER -->
+<div class="sakura-container"></div>
+
+<!-- SAKURA JS -->
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+
+  setInterval(createSakura, 800);
+</script>
 
 </body>
 </html>

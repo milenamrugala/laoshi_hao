@@ -2,12 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Laoshi Hao</title>
+  <title>Laoshi Hao – Home</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="home-body">
 
-<h1>Laoshi Hao</h1>
-<p>A platform for finding language teachers</p>
+<div class="site-wrapper">
+
+  <!-- HEADER -->
+  <div th:replace="fragments/header :: header"></div>
+
+
+  <!-- MAIN -->
+  <main class="site-main home-main">
+
+    <h1 class="home-title">Welcome to 老师好 Lǎoshī Hǎo</h1>
+    <p class="home-subtitle">
+      Choose who you are to start your journey:
+    </p>
+
+    <div class="role-grid">
+
+      <!-- STUDENT -->
+      <a th:href="@{/register/student}" class="role-link">
+        <div class="role-card">
+          <div class="role-avatar">
+            🎓
+          </div>
+          <div class="role-title">I’m 学生</div>
+          <div class="role-desc">
+            Create your student profile to send messages and book lessons.
+          </div>
+        </div>
+      </a>
+
+      <!-- TEACHER -->
+      <a th:href="@{/register/teacher}" class="role-link">
+        <div class="role-card">
+          <div class="role-avatar">
+            🧑‍🏫
+          </div>
+          <div class="role-title">I’m 老师</div>
+          <div class="role-desc">
+            Create a teacher profile, add your info and start accepting students.
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+</div>
+
+<!-- SAKURA LAYER -->
+<div class="sakura-container"></div>
+
+<!-- SAKURA JS -->
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+
+  setInterval(createSakura, 800);
+</script>
 
 </body>
 </html>

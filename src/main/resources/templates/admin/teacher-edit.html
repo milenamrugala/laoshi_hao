@@ -66,6 +66,14 @@
     <div th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}" style="color:red"></div>
   </div>
 
+  <div>
+    <label>Capacity (max active bookings):</label>
+    <input th:field="*{capacity}" type="number" min="1" max="1000" />
+    <div th:if="${#fields.hasErrors('capacity')}"
+         th:errors="*{capacity}"
+         style="color:red"></div>
+  </div>
+
   <button type="submit">Save changes</button>
 </form>
 
