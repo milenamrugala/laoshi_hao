@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Student bookings</title>
+</head>
+<body>
+
+<h1>Bookings by student</h1>
+
+<h2>
+  <span th:text="${student.firstName}">First</span>
+  <span th:text="${student.lastName}">Last</span>
+</h2>
+
+<p>
+  <a href="/admin/students">← Back to students</a>
+</p>
+
+<table border="1" cellspacing="0" cellpadding="4">
+  <thead>
+  <tr>
+    <th>Teacher</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Status</th>
+    <th>Note</th>
+    <th>Created at</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr th:each="b : ${bookings}">
+    <td>
+      <span th:text="${b.teacher.firstName}">Teacher</span>
+      <span th:text="${b.teacher.lastName}">Teacher</span>
+    </td>
+    <td th:text="${b.lessonDate}">2026-01-15</td>
+    <td th:text="${b.lessonTime}">12:00</td>
+    <td th:text="${b.status}">PENDING</td>
+    <td th:text="${b.note}">note</td>
+    <td th:text="${b.createdAt}">2026-01-14T20:00</td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

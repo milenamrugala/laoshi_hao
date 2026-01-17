@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register – Student | Laoshi Hao</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="site-wrapper">
+  <div th:replace="fragments/header :: header"></div>
+
+  <main class="site-main">
+    <div class="page-wrapper">
+      <div class="form-card">
+
+        <h1>Student registration</h1>
+        <p class="subtitle">Create your student profile ✨</p>
+
+        <form th:action="@{/register/student}"
+              th:object="${studentForm}"
+              method="post"
+              class="form-center">
+
+          <div class="form-field">
+            <label for="firstName">First name</label>
+            <input id="firstName" th:field="*{firstName}" type="text">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('firstName')}"
+                 th:errors="*{firstName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="lastName">Last name</label>
+            <input id="lastName" th:field="*{lastName}" type="text">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('lastName')}"
+                 th:errors="*{lastName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="username">Username</label>
+            <input id="username" th:field="*{username}" type="text" placeholder="e.g. anna123">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input id="email" th:field="*{email}" type="email" placeholder="e.g. anna@gmail.com">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="phone">Phone</label>
+            <input id="phone" th:field="*{phone}" type="text" placeholder="+48123456789">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('phone')}"
+                 th:errors="*{phone}"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Create student account</button>
+          </div>
+
+          <div class="form-links">
+            <a href="/">← Back to home</a>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+  setInterval(createSakura, 800);
+</script>
+
+</body>
+</html>

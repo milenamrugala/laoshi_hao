@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register – Teacher | Laoshi Hao</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="site-wrapper">
+  <div th:replace="fragments/header :: header"></div>
+
+  <main class="site-main">
+    <div class="page-wrapper">
+      <div class="form-card">
+
+        <h1>Teacher registration</h1>
+        <p class="subtitle">Create your teacher profile ✨</p>
+
+        <form th:action="@{/register/teacher}"
+              th:object="${teacherForm}"
+              method="post"
+              class="form-center">
+
+          <div class="form-field">
+            <label for="firstName">First name</label>
+            <input id="firstName" th:field="*{firstName}" type="text">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('firstName')}"
+                 th:errors="*{firstName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="lastName">Last name</label>
+            <input id="lastName" th:field="*{lastName}" type="text">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('lastName')}"
+                 th:errors="*{lastName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="username">Username</label>
+            <input id="username" th:field="*{username}" type="text" placeholder="e.g. laoshi_hao">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input id="email" th:field="*{email}" type="email" placeholder="e.g. teacher@gmail.com">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="phone">Phone</label>
+            <input id="phone" th:field="*{phone}" type="text" placeholder="+48123456789">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('phone')}"
+                 th:errors="*{phone}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="language">Language you teach</label>
+            <input id="language" th:field="*{language}" type="text" placeholder="e.g. Chinese, English">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('language')}"
+                 th:errors="*{language}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="city">City</label>
+            <input id="city" th:field="*{city}" type="text" placeholder="e.g. Warsaw / Online">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('city')}"
+                 th:errors="*{city}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="nativeLanguage">Native language</label>
+            <input id="nativeLanguage" th:field="*{nativeLanguage}" type="text" placeholder="e.g. Mandarin">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('nativeLanguage')}"
+                 th:errors="*{nativeLanguage}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="nationality">Nationality</label>
+            <input id="nationality" th:field="*{nationality}" type="text" placeholder="e.g. Chinese">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('nationality')}"
+                 th:errors="*{nationality}"></div>
+          </div>
+
+          <div class="form-field">
+            <label for="capacity">Capacity (max active bookings)</label>
+            <input id="capacity" th:field="*{capacity}" type="number" min="1" max="1000">
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('capacity')}"
+                 th:errors="*{capacity}"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Create teacher account</button>
+          </div>
+
+          <div class="form-links">
+            <a href="/">← Back to home</a>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+  setInterval(createSakura, 800);
+</script>
+
+</body>
+</html>

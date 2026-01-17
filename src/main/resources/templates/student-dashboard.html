@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="'Student Dashboard – ' + ${student.firstName} + ' ' + ${student.lastName}">Student Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="site-wrapper">
+  <div th:replace="fragments/header :: header"></div>
+
+  <main class="site-main">
+    <div class="dashboard-wrap">
+
+      <!-- HEADER -->
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">My Dashboard</h1>
+          <p class="dashboard-subtitle">
+            Welcome back,
+            <strong th:text="${student.firstName} + ' ' + ${student.lastName}">Student Name</strong>
+          </p>
+        </div>
+
+        <div class="dashboard-actions">
+          <a class="btn btn-primary" th:href="@{'/students/' + ${student.id} + '/edit'}">Edit profile</a>
+          <a class="btn" th:href="@{'/teachers'}">Browse teachers</a>
+        </div>
+      </div>
+
+      <!-- TOP CARDS -->
+      <div class="dashboard-top">
+        <!-- Profile card -->
+        <div class="kawaii-card">
+          <h2>Your profile</h2>
+
+          <div class="profile-row">
+            <div class="profile-avatar">
+              <img th:src="@{/img/student-avatar.jpg}" alt="Student avatar">
+            </div>
+
+            <div class="profile-meta">
+              <p><strong>Username:</strong> <span th:text="${student.username}">username</span></p>
+              <p><strong>Email:</strong> <span th:text="${student.email}">email@example.com</span></p>
+              <p><strong>Phone:</strong> <span th:text="${student.phone}">+48123456789</span></p>
+
+              <div class="badge-row">
+                <div class="badge">
+                  Upcoming bookings: <strong th:text="${#lists.size(upcomingBookings)}">0</strong>
+                </div>
+                <div class="badge">
+                  Past bookings: <strong th:text="${#lists.size(pastBookings)}">0</strong>
+                </div>
+                <div class="badge">
+                  Messages: <strong th:text="${#lists.size(recentMessages)}">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="kawaii-card">
+          <h2>Quick actions</h2>
+          <p>Here you can review your bookings and see your recent messages.</p>
+          <p>Tip: message a teacher if you want to change a time or ask questions 💌</p>
+
+          <div class="dashboard-actions" style="justify-content:flex-start; margin-top:12px;">
+            <a class="btn" th:href="@{'/students/' + ${student.id} + '/dashboard'}">Refresh</a>
+<!--            <a class="btn" th:href="@{'/teachers'}">Browse teachers</a>-->
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div class="section-grid">
+
+        <!-- Upcoming bookings -->
+        <div class="kawaii-card">
+          <h2>Upcoming bookings</h2>
+
+          <div class="table-wrap" th:if="${#lists.size(upcomingBookings) > 0}">
+            <table class="kawaii-table">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Teacher</th>
+                <th>Teacher language</th>
+                <th>Status</th>
+                <th>Note</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="b : ${upcomingBookings}">
+                <td th:text="${b.lessonDate}">2026-01-16</td>
+                <td th:text="${b.lessonTime}">18:00</td>
+                <td>
+                  <span th:text="${b.teacher.firstName}">Teacher</span>
+                  <span th:text="${b.teacher.lastName}">Name</span>
+                </td>
+                <td th:text="${b.teacher.language}">English</td>
+                <td>
+                  <span class="status-pill"
+                        th:classappend="${#strings.equalsIgnoreCase(b.status,'PENDING')} ? ' status-pending' :
+                                        (${#strings.equalsIgnoreCase(b.status,'CONFIRMED')} ? ' status-confirmed' : ' status-cancelled')"
+                        th:text="${b.status}">
+                    PENDING
+                  </span>
+                </td>
+                <td th:text="${b.note}">note</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p th:if="${#lists.size(upcomingBookings) == 0}">No upcoming bookings yet</p>
+        </div>
+
+        <!-- Past bookings -->
+        <div class="kawaii-card">
+          <h2>Past bookings</h2>
+
+          <div class="table-wrap" th:if="${#lists.size(pastBookings) > 0}">
+            <table class="kawaii-table">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Teacher</th>
+                <th>Teacher language</th>
+                <th>Status</th>
+                <th>Note</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="b : ${pastBookings}">
+                <td th:text="${b.lessonDate}">2026-01-10</td>
+                <td th:text="${b.lessonTime}">16:00</td>
+                <td>
+                  <span th:text="${b.teacher.firstName}">Teacher</span>
+                  <span th:text="${b.teacher.lastName}">Name</span>
+                </td>
+                <td th:text="${b.teacher.language}">English</td>
+                <td>
+                  <span class="status-pill"
+                        th:classappend="${#strings.equalsIgnoreCase(b.status,'PENDING')} ? ' status-pending' :
+                                        (${#strings.equalsIgnoreCase(b.status,'CONFIRMED')} ? ' status-confirmed' : ' status-cancelled')"
+                        th:text="${b.status}">
+                    CONFIRMED
+                  </span>
+                </td>
+                <td th:text="${b.note}">note</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p th:if="${#lists.size(pastBookings) == 0}">No past bookings yet</p>
+        </div>
+
+        <!-- Messages (student → teachers) -->
+        <div class="kawaii-card">
+          <h2>Recent messages (last 50)</h2>
+
+          <div class="table-wrap" th:if="${#lists.size(recentMessages) > 0}">
+            <table class="kawaii-table">
+              <thead>
+              <tr>
+                <th>Sent at</th>
+                <th>Teacher</th>
+                <th>Teacher language</th>
+                <th>Message</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="m : ${recentMessages}">
+                <td th:text="${m.createdAt}">2026-01-16T10:00</td>
+                <td>
+                  <span th:text="${m.teacher.firstName}">Teacher</span>
+                  <span th:text="${m.teacher.lastName}">Name</span>
+                </td>
+                <td th:text="${m.teacher.language}">English</td>
+                <td th:text="${m.content}">Hello!</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p th:if="${#lists.size(recentMessages) == 0}">No messages yet 💌</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+  setInterval(createSakura, 800);
+</script>
+
+</body>
+</html>

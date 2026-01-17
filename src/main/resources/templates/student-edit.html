@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit student profile</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="site-wrapper">
+  <div th:replace="fragments/header :: header"></div>
+
+  <main class="site-main">
+    <div class="page-wrapper">
+      <div class="form-card">
+
+        <h1>Edit your profile</h1>
+        <p class="subtitle">Update your student details</p>
+
+        <form th:action="@{|/students/${studentId}/edit|}"
+              th:object="${studentForm}"
+              method="post"
+              class="form-center">
+
+          <div class="form-field">
+            <label>First name</label>
+            <input th:field="*{firstName}" type="text"/>
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('firstName')}"
+                 th:errors="*{firstName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label>Last name</label>
+            <input th:field="*{lastName}" type="text"/>
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('lastName')}"
+                 th:errors="*{lastName}"></div>
+          </div>
+
+          <div class="form-field">
+            <label>Username</label>
+            <input th:field="*{username}" type="text"/>
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}"></div>
+          </div>
+
+          <div class="form-field">
+            <label>Email</label>
+            <input th:field="*{email}" type="email"/>
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}"></div>
+          </div>
+
+          <div class="form-field">
+            <label>Phone</label>
+            <input th:field="*{phone}" type="text"/>
+            <div class="form-error"
+                 th:if="${#fields.hasErrors('phone')}"
+                 th:errors="*{phone}"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Save changes</button>
+          </div>
+        </form>
+
+        <div class="form-links">
+          <a th:href="@{'/students/' + ${studentId} + '/dashboard'}">
+            ← Back to dashboard
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+
+<script>
+  function createSakura() {
+    const sakura = document.createElement("div");
+    sakura.classList.add("sakura");
+    sakura.textContent = "🌸";
+    sakura.style.left = Math.random() * 100 + "vw";
+    sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+    sakura.style.opacity = Math.random();
+    document.querySelector(".sakura-container").appendChild(sakura);
+    setTimeout(() => sakura.remove(), 10000);
+  }
+  setInterval(createSakura, 800);
+</script>
+
+</body>
+</html>

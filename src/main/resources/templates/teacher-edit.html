@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Edit profile – ' + ${teacher.firstName} + ' ' + ${teacher.lastName}">Edit your profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="site-wrapper">
+    <div th:replace="fragments/header :: header"></div>
+
+    <main class="site-main">
+        <div class="page-wrapper">
+            <div class="form-card">
+
+                <h1>Edit your profile</h1>
+                <p class="subtitle">Update your teacher data and photo ✨</p>
+
+                <!-- ========= FORM 1: PROFILE DATA ========= -->
+                <form th:action="@{|/teachers/${teacherId}/edit|}"
+                      th:object="${teacherForm}"
+                      method="post"
+                      class="form-center">
+
+                    <div class="form-field">
+                        <label>First name</label>
+                        <input th:field="*{firstName}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Last name</label>
+                        <input th:field="*{lastName}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Username</label>
+                        <input th:field="*{username}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Email</label>
+                        <input th:field="*{email}" type="email">
+                        <div class="form-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Phone</label>
+                        <input th:field="*{phone}" type="text" placeholder="+48123456789">
+                        <div class="form-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Language you teach</label>
+                        <input th:field="*{language}" type="text" placeholder="e.g. Chinese, English">
+                        <div class="form-error" th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Native language</label>
+                        <input th:field="*{nativeLanguage}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Nationality</label>
+                        <input th:field="*{nationality}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>City</label>
+                        <input th:field="*{city}" type="text">
+                        <div class="form-error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Capacity (max active bookings)</label>
+                        <input th:field="*{capacity}" type="number" min="1" max="1000">
+                        <div class="form-error" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Save profile changes</button>
+                    </div>
+                </form>
+
+                <hr style="margin:18px 0; border:none; border-top:1px solid rgba(240,200,255,0.65);">
+
+                <!-- ========= PHOTO SECTION ========= -->
+                <h2 style="margin:0 0 10px 0; font-size:18px;">Photo</h2>
+
+                <div style="display:flex; gap:14px; align-items:center; margin-bottom:14px;">
+                    <div class="profile-avatar" style="width:92px;height:92px;border-radius:22px;">
+                        <img th:if="${teacher != null and teacher.photoFilename != null}"
+                             th:src="@{'/teacher-photos/' + ${teacher.photoFilename}}"
+                             alt="Current photo">
+                        <img th:if="${teacher == null or teacher.photoFilename == null}"
+                             th:src="@{/img/default-avatar.png}"
+                             alt="No photo">
+                    </div>
+
+                    <div style="color:#5d3b61;">
+                        <div th:if="${teacher != null and teacher.photoFilename != null}">
+                            Current photo is set
+                        </div>
+                        <div th:if="${teacher == null or teacher.photoFilename == null}">
+                            No photo uploaded yet
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORM 2: UPLOAD / CHANGE PHOTO -->
+                <form th:action="@{|/teachers/${teacherId}/photo|}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="form-center">
+
+                    <div class="form-field">
+                        <label>Upload / change photo</label>
+                        <input type="file" name="photo" accept="image/*" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Upload new photo</button>
+                    </div>
+                </form>
+
+                <!-- FORM 3: DELETE PHOTO -->
+                <form th:if="${teacher != null and teacher.photoFilename != null}"
+                      th:action="@{|/teachers/${teacherId}/photo/delete|}"
+                      method="post"
+                      class="form-center"
+                      style="margin-top:10px;">
+
+                    <div class="form-actions">
+                        <button type="submit"
+                                style="background: linear-gradient(90deg, #ff8fb1, #ffb7d6);"
+                                onclick="return confirm('Are you sure you want to delete this photo?');">
+                            Delete photo
+                        </button>
+                    </div>
+                </form>
+
+                <div class="form-links">
+                    <a th:href="@{'/teachers/' + ${teacherId} + '/dashboard'}">← Back to dashboard</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+<script>
+    function createSakura() {
+        const sakura = document.createElement("div");
+        sakura.classList.add("sakura");
+        sakura.textContent = "🌸";
+        sakura.style.left = Math.random() * 100 + "vw";
+        sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+        sakura.style.opacity = Math.random();
+        document.querySelector(".sakura-container").appendChild(sakura);
+        setTimeout(() => sakura.remove(), 10000);
+    }
+    setInterval(createSakura, 800);
+</script>
+
+</body>
+</html>

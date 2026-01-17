@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit student</title>
+</head>
+<body>
+
+<h1>Edit student</h1>
+
+<form th:action="@{|/admin/students/${studentId}/edit|}"
+      th:object="${studentForm}"
+      method="post">
+
+  <div>
+    <label>Username:</label>
+    <input th:field="*{username}" type="text" />
+    <div th:if="${#fields.hasErrors('username')}"
+         th:errors="*{username}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input th:field="*{email}" type="email" />
+    <div th:if="${#fields.hasErrors('email')}"
+         th:errors="*{email}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>First name:</label>
+    <input th:field="*{firstName}" type="text" />
+    <div th:if="${#fields.hasErrors('firstName')}"
+         th:errors="*{firstName}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Last name:</label>
+    <input th:field="*{lastName}" type="text" />
+    <div th:if="${#fields.hasErrors('lastName')}"
+         th:errors="*{lastName}"
+         style="color:red"></div>
+  </div>
+
+  <div>
+    <label>Phone:</label>
+    <input th:field="*{phone}" type="text" />
+    <div th:if="${#fields.hasErrors('phone')}"
+         th:errors="*{phone}"
+         style="color:red"></div>
+  </div>
+
+  <button type="submit">Save changes</button>
+</form>
+
+<p>
+  <a href="/admin/students">← Back to students</a>
+</p>
+
+</body>
+</html>
