@@ -1,4 +1,4 @@
-<img width="1384" height="768" alt="Zrzut ekranu 2026-01-17 o 17 04 04" src="https://github.com/user-attachments/assets/ba8fa582-d6c2-4ebb-8ebe-6713e94d64fd" /># Laoshi Hao
+# Laoshi Hao
 
 Laoshi Hao is a web application for connecting students with language teachers.
 It allows teachers to present their profiles and manage bookings, while students can browse teachers, book lessons, and communicate with them.
@@ -86,7 +86,8 @@ The project was built as a full-stack Spring Boot application with a custom UI a
 
 ## Author
 
-Created by **Milena Mrugała**
+Created by **Milena Mrugała** This project was developed as a portfolio application to demonstrate full-stack Java & Spring skills.
+
 
 <img width="1389" height="775" alt="Zrzut ekranu 2026-01-17 o 17 02 47" src="https://github.com/user-attachments/assets/d6b9bd1a-9426-4be6-82b6-4fde9a57687d" />
 
@@ -104,4 +105,4 @@ Created by **Milena Mrugała**
 
 
 
-This project was developed as a portfolio application to demonstrate full-stack Java & Spring skills.
+
