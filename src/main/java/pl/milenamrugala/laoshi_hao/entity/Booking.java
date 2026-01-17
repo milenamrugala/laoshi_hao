@@ -1,9 +1,11 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import pl.milenamrugala.laoshi_hao.entity.Student;
 
 @Entity
 public class Booking {
@@ -21,6 +23,9 @@ public class Booking {
     private String studentUsername;
     private String studentEmail;
     private String studentPhone;
+
+    @ManyToOne
+    private Student student;
 
     // requested lesson time
     private LocalDate lessonDate;
@@ -69,6 +74,14 @@ public class Booking {
 
     public Teacher getTeacher() {
         return teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getStudentFirstName() {
