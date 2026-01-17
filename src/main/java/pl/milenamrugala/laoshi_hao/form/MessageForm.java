@@ -1,21 +1,15 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.form;
 
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+public class MessageForm {
 
-public class BookingForm {
-
-    @NotBlank(message = "First name is required")
+    @NotBlank(message = "Your name is required")
     private String studentFirstName;
 
-    @NotBlank(message = "Last name is required")
+    @NotBlank(message = "Your name is required")
     private String studentLastName;
 
     @NotBlank(message = "Username is required")
@@ -41,28 +35,20 @@ public class BookingForm {
     @Size(min = 8, max = 15, message = "Phone number must be between 8 and 15 digits")
     private String studentPhone;
 
-    @NotNull(message = "Lesson date is required")
-    @FutureOrPresent(message = "Lesson date cannot be in the past")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate lessonDate;
-
-    @NotNull(message = "Lesson time is required")
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime lessonTime;
-
-    @Size(max = 2000, message = "Note is too long")
-    private String note;
+    @NotBlank(message = "Message cannot be empty")
+    @Size(max = 2000, message = "Message is too long")
+    private String content;
 
     public String getStudentFirstName() {
         return studentFirstName;
     }
 
-    public void setStudentFirstName(String studentFirstName) {
-        this.studentFirstName = studentFirstName != null ? studentFirstName.trim() : null;
-    }
-
     public String getStudentLastName() {
         return studentLastName;
+    }
+
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName != null ? studentFirstName.trim() : null;
     }
 
     public void setStudentLastName(String studentLastName) {
@@ -93,27 +79,11 @@ public class BookingForm {
         this.studentPhone = studentPhone != null ? studentPhone.trim() : null;
     }
 
-    public LocalDate getLessonDate() {
-        return lessonDate;
+    public String getContent() {
+        return content;
     }
 
-    public void setLessonDate(LocalDate lessonDate) {
-        this.lessonDate = lessonDate;
-    }
-
-    public LocalTime getLessonTime() {
-        return lessonTime;
-    }
-
-    public void setLessonTime(LocalTime lessonTime) {
-        this.lessonTime = lessonTime;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note != null ? note.trim() : null;
+    public void setContent(String content) {
+        this.content = content != null ? content.trim() : null;
     }
 }

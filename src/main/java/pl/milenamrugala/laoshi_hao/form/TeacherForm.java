@@ -1,9 +1,10 @@
-package pl.milenamrugala.laoshi_hao;
+package pl.milenamrugala.laoshi_hao.form;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 public class TeacherForm {
 
@@ -52,6 +53,10 @@ public class TeacherForm {
 
     @NotBlank(message = "Native language is required")
     private String nativeLanguage;
+
+    @Min(value = 1, message = "Capacity must be at least 1")
+    @Max(value = 100, message = "Capacity cannot be greater than 100")
+    private Integer capacity;
 
     // getters and setters
 
@@ -127,5 +132,13 @@ public class TeacherForm {
 
     public void setNativeLanguage(String nativeLanguage) {
         this.nativeLanguage = nativeLanguage != null ? nativeLanguage.trim() : null;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 }
