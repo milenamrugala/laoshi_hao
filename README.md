@@ -44,14 +44,12 @@ The project was built as a full-stack Spring Boot application with a custom UI a
 - Spring Validation
 - Spring Data JPA (Hibernate)
 - Thymeleaf
-- PostgreSQL / H2 (depending on environment)
+- MySQL
 
 ### Frontend
 - Thymeleaf templates
 - HTML5
-- CSS3 (custom design, no frameworks)
-- Responsive layout
-- Kawaii / anime-inspired UI theme
+- CSS
 
 ### Other
 - Multipart file upload (teacher photos)
