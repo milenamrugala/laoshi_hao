@@ -2,91 +2,129 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Book a lesson</title>
+    <title th:text="'Book a lesson – ' + ${teacher.firstName} + ' ' + ${teacher.lastName} + ' | Laoshi Hao'">Book a lesson</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<h1>Book a lesson</h1>
+<div class="site-wrapper">
+    <div th:replace="fragments/header :: header"></div>
 
-<h2>
-    <span th:text="${teacher.firstName}">Teacher First</span>
-    <span th:text="${teacher.lastName}">Teacher Last</span>
-</h2>
+    <main class="site-main">
+        <div class="page-wrapper">
+            <div class="form-card">
 
-<form th:action="@{|/teachers/${teacher.id}/booking|}"
-      th:object="${bookingForm}"
-      method="post">
+                <h1>Book a lesson</h1>
+                <p class="subtitle">
+                    Send a booking request to
+                    <strong th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">Teacher Name</strong> ✨
+                </p>
 
-    <div>
-        <label>Your first name:</label>
-        <input th:field="*{studentFirstName}" type="text" />
-        <div th:if="${#fields.hasErrors('studentFirstName')}"
-             th:errors="*{studentFirstName}"
-             style="color:red"></div>
-    </div>
+                <form th:action="@{|/teachers/${teacher.id}/booking|}"
+                      th:object="${bookingForm}"
+                      method="post"
+                      class="form-center">
 
-    <div>
-        <label>Your last name:</label>
-        <input th:field="*{studentLastName}" type="text" />
-        <div th:if="${#fields.hasErrors('studentLastName')}"
-             th:errors="*{studentLastName}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Your first name</label>
+                        <input th:field="*{studentFirstName}" type="text"
+                               th:classappend="${#fields.hasErrors('studentFirstName')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('studentFirstName')}"
+                             th:errors="*{studentFirstName}"></div>
+                    </div>
 
-    <div>
-        <label>Your username:</label>
-        <input th:field="*{studentUsername}" type="text" placeholder="e.g. anna123" />
-        <div th:if="${#fields.hasErrors('studentUsername')}"
-             th:errors="*{studentUsername}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Your last name</label>
+                        <input th:field="*{studentLastName}" type="text"
+                               th:classappend="${#fields.hasErrors('studentLastName')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('studentLastName')}"
+                             th:errors="*{studentLastName}"></div>
+                    </div>
 
-    <div>
-        <label>Your email:</label>
-        <input th:field="*{studentEmail}" type="email" />
-        <div th:if="${#fields.hasErrors('studentEmail')}"
-             th:errors="*{studentEmail}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Your username</label>
+                        <input th:field="*{studentUsername}" type="text" placeholder="e.g. anna123"
+                               th:classappend="${#fields.hasErrors('studentUsername')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('studentUsername')}"
+                             th:errors="*{studentUsername}"></div>
+                    </div>
 
-    <div>
-        <label>Your phone:</label>
-        <input th:field="*{studentPhone}" type="text" placeholder="+48123456789" />
-        <div th:if="${#fields.hasErrors('studentPhone')}"
-             th:errors="*{studentPhone}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Your email</label>
+                        <input th:field="*{studentEmail}" type="email" placeholder="e.g. anna@gmail.com"
+                               th:classappend="${#fields.hasErrors('studentEmail')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('studentEmail')}"
+                             th:errors="*{studentEmail}"></div>
+                    </div>
 
-    <div>
-        <label>Preferred date:</label>
-        <input th:field="*{lessonDate}" type="date" />
-        <div th:if="${#fields.hasErrors('lessonDate')}"
-             th:errors="*{lessonDate}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Your phone</label>
+                        <input th:field="*{studentPhone}" type="text" placeholder="+48123456789"
+                               th:classappend="${#fields.hasErrors('studentPhone')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('studentPhone')}"
+                             th:errors="*{studentPhone}"></div>
+                    </div>
 
-    <div>
-        <label>Preferred time:</label>
-        <input th:field="*{lessonTime}" type="time" />
-        <div th:if="${#fields.hasErrors('lessonTime')}"
-             th:errors="*{lessonTime}"
-             style="color:red"></div>
-    </div>
+                    <!-- data i godzina POD SOBĄ -->
+                    <div class="form-field">
+                        <label>Preferred date</label>
+                        <input th:field="*{lessonDate}" type="date"
+                               th:classappend="${#fields.hasErrors('lessonDate')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('lessonDate')}"
+                             th:errors="*{lessonDate}"></div>
+                    </div>
 
-    <div>
-        <label>Note (optional):</label><br>
-        <textarea th:field="*{note}" rows="5" cols="40"></textarea>
-        <div th:if="${#fields.hasErrors('note')}"
-             th:errors="*{note}"
-             style="color:red"></div>
-    </div>
+                    <div class="form-field">
+                        <label>Preferred time</label>
+                        <input th:field="*{lessonTime}" type="time"
+                               th:classappend="${#fields.hasErrors('lessonTime')} ? ' input-error' : ''">
+                        <div class="form-error" th:if="${#fields.hasErrors('lessonTime')}"
+                             th:errors="*{lessonTime}"></div>
+                    </div>
 
-    <button type="submit">Send booking request</button>
-</form>
+                    <div class="form-field">
+                        <label>Note (optional)</label>
+                        <textarea th:field="*{note}" rows="5" placeholder="Any details for the teacher? ✨"
+                                  th:classappend="${#fields.hasErrors('note')} ? ' input-error' : ''"></textarea>
+                        <div class="form-error" th:if="${#fields.hasErrors('note')}"
+                             th:errors="*{note}"></div>
+                    </div>
 
-<p>
-    <a th:href="@{'/teachers/' + ${teacher.id}}">← Back to teacher profile</a>
-</p>
+                    <!-- global errors MUSZĄ być w form -->
+                    <div class="form-error" th:if="${#fields.hasGlobalErrors()}">
+                        <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">Error</div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Send booking request</button>
+                    </div>
+
+                    <div class="form-links">
+                        <a th:href="@{'/teachers/' + ${teacher.id}}">← Back to teacher profile</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div class="sakura-container"></div>
+<script>
+    function createSakura() {
+        const sakura = document.createElement("div");
+        sakura.classList.add("sakura");
+        sakura.textContent = "🌸";
+        sakura.style.left = Math.random() * 100 + "vw";
+        sakura.style.animationDuration = (4 + Math.random() * 6) + "s";
+        sakura.style.opacity = Math.random();
+        document.querySelector(".sakura-container").appendChild(sakura);
+        setTimeout(() => sakura.remove(), 10000);
+    }
+    setInterval(createSakura, 800);
+</script>
 
 </body>
 </html>
