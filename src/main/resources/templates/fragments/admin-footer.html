@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<footer class="site-footer" th:fragment="adminFooter">
+    <span>
+        ©
+        <span th:text="${#temporals.year(#temporals.createNow())}"></span>
+        Laoshi Hao.
+    </span>
+  <span>Made with ♡, tea & kanji practice.</span>
+</footer>
+
+</body>
+</html>

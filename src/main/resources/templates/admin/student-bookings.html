@@ -2,47 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Student bookings</title>
+  <title>Admin – Student Bookings</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
 
-<h1>Bookings by student</h1>
+<div class="site-wrapper">
+  <div th:replace="fragments/admin-header :: adminHeader"></div>
 
-<h2>
-  <span th:text="${student.firstName}">First</span>
-  <span th:text="${student.lastName}">Last</span>
-</h2>
+  <main class="site-main">
+    <div class="dashboard-wrap">
 
-<p>
-  <a href="/admin/students">← Back to students</a>
-</p>
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Bookings by student</h1>
+          <p class="dashboard-subtitle">
+            <strong>
+              <span th:text="${student.firstName}">First</span>
+              <span th:text="${student.lastName}">Last</span>
+            </strong>
+          </p>
+        </div>
 
-<table border="1" cellspacing="0" cellpadding="4">
-  <thead>
-  <tr>
-    <th>Teacher</th>
-    <th>Date</th>
-    <th>Time</th>
-    <th>Status</th>
-    <th>Note</th>
-    <th>Created at</th>
-  </tr>
-  </thead>
+        <div class="dashboard-actions">
+          <a class="btn btn-ghost" th:href="@{/admin/students}">Students</a>
+          <a class="btn btn-messages" th:href="@{/admin/messages}">All messages</a>
+          <a class="btn btn-bookings" th:href="@{/admin/bookings}">All bookings</a>
+        </div>
+      </div>
 
-  <tbody>
-  <tr th:each="b : ${bookings}">
-    <td>
-      <span th:text="${b.teacher.firstName}">Teacher</span>
-      <span th:text="${b.teacher.lastName}">Teacher</span>
-    </td>
-    <td th:text="${b.lessonDate}">2026-01-15</td>
-    <td th:text="${b.lessonTime}">12:00</td>
-    <td th:text="${b.status}">PENDING</td>
-    <td th:text="${b.note}">note</td>
-    <td th:text="${b.createdAt}">2026-01-14T20:00</td>
-  </tr>
-  </tbody>
-</table>
+      <div class="section-grid">
+        <div class="kawaii-card">
+          <h2>Bookings</h2>
+
+          <div class="table-wrap table-scroll">
+            <table class="kawaii-table student-bookings-table">
+              <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Note</th>
+                <th>Created at</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr th:each="b : ${bookings}">
+                <td>
+                  <span th:text="${b.teacher.firstName}">Teacher</span>
+                  <span th:text="${b.teacher.lastName}">Teacher</span>
+                </td>
+
+                <td th:text="${b.lessonDate}">2026-01-15</td>
+                <td th:text="${b.lessonTime}">12:00</td>
+                <td class="status-cell" th:text="${b.status}">PENDING</td>
+
+                <td class="note-cell" th:text="${b.note}">note</td>
+                <td th:text="${b.createdAt}">2026-01-14T20:00</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="fragments/admin-footer :: adminFooter"></div>
+</div>
 
 </body>
 </html>

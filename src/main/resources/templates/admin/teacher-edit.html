@@ -2,82 +2,113 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Teacher</title>
+  <title>Admin – Edit Teacher</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
 
-<h1>Edit Teacher</h1>
+<div class="site-wrapper">
+  <div th:replace="fragments/admin-header :: adminHeader"></div>
 
-<form th:action="@{|/admin/teachers/${teacherId}/edit|}"
-      th:object="${teacherForm}"
-      method="post">
+  <main class="site-main">
+    <div class="dashboard-wrap">
 
-  <div>
-    <label>First Name:</label>
-    <input th:field="*{firstName}" type="text" />
-    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color:red"></div>
-  </div>
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Edit Teacher</h1>
+          <p class="dashboard-subtitle">Update teacher details</p>
+        </div>
 
-  <div>
-    <label>Last Name:</label>
-    <input th:field="*{lastName}" type="text" />
-    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color:red"></div>
-  </div>
+        <div class="dashboard-actions">
+          <a class="btn btn-ghost" th:href="@{/admin/teachers}">Back to teachers</a>
+        </div>
+      </div>
 
-  <div>
-    <label>Language taught:</label>
-    <input th:field="*{language}" type="text" />
-    <div th:if="${#fields.hasErrors('language')}" th:errors="*{language}" style="color:red"></div>
-  </div>
+      <div class="section-grid">
+        <div class="kawaii-card">
+          <h2>Teacher form</h2>
 
-  <div>
-    <label>City:</label>
-    <input th:field="*{city}" type="text" />
-    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color:red"></div>
-  </div>
+          <form class="kawaii-form"
+                th:action="@{|/admin/teachers/${teacherId}/edit|}"
+                th:object="${teacherForm}"
+                method="post">
 
-  <div>
-    <label>Username:</label>
-    <input th:field="*{username}" type="text" />
-    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red"></div>
-  </div>
+            <div class="form-grid">
+              <div class="field">
+                <label>First Name</label>
+                <input th:field="*{firstName}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+              </div>
 
-  <div>
-    <label>Email:</label>
-    <input th:field="*{email}" type="email" />
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
-  </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input th:field="*{lastName}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+              </div>
 
-  <div>
-    <label>Phone:</label>
-    <input th:field="*{phone}" type="text" />
-    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color:red"></div>
-  </div>
+              <div class="field">
+                <label>Language taught</label>
+                <input th:field="*{language}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></div>
+              </div>
 
-  <div>
-    <label>Nationality:</label>
-    <input th:field="*{nationality}" type="text" />
-    <div th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}" style="color:red"></div>
-  </div>
+              <div class="field">
+                <label>City</label>
+                <input th:field="*{city}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+              </div>
 
-  <div>
-    <label>Native language:</label>
-    <input th:field="*{nativeLanguage}" type="text" />
-    <div th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}" style="color:red"></div>
-  </div>
+              <div class="field">
+                <label>Username</label>
+                <input th:field="*{username}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+              </div>
 
-  <div>
-    <label>Capacity (max active bookings):</label>
-    <input th:field="*{capacity}" type="number" min="1" max="1000" />
-    <div th:if="${#fields.hasErrors('capacity')}"
-         th:errors="*{capacity}"
-         style="color:red"></div>
-  </div>
+              <div class="field">
+                <label>Email</label>
+                <input th:field="*{email}" type="email"/>
+                <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+              </div>
 
-  <button type="submit">Save changes</button>
-</form>
+              <div class="field">
+                <label>Phone</label>
+                <input th:field="*{phone}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+              </div>
 
-<p><a href="/admin/teachers">← Back to admin teachers list</a></p>
+              <div class="field">
+                <label>Nationality</label>
+                <input th:field="*{nationality}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>
+              </div>
+
+              <div class="field">
+                <label>Native language</label>
+                <input th:field="*{nativeLanguage}" type="text"/>
+                <div class="field-error" th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}"></div>
+              </div>
+
+              <div class="field">
+                <label>Capacity (max active bookings)</label>
+                <input th:field="*{capacity}" type="number" min="1" max="1000"/>
+                <div class="field-error" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Save changes</button>
+              <a class="btn btn-ghost" th:href="@{/admin/teachers}">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="fragments/admin-footer :: adminFooter"></div>
+</div>
 
 </body>
 </html>

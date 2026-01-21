@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header class="site-header" th:fragment="adminHeader">
+  <div class="brand">
+    <div class="brand-logo">好</div>
+    <div>
+      <div class="brand-title">
+        <span>老师好</span>
+        <span class="brand-pinyin">Lǎoshī Hǎo</span>
+      </div>
+      <div class="brand-subtitle">Admin panel ♡</div>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <a th:href="@{/admin/teachers}">Teachers</a>
+    <a th:href="@{/admin/students}">Students</a>
+    <a th:href="@{/}">Home</a>
+  </nav>
+</header>
+</body>
+</html>

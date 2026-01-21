@@ -1,0 +1,540 @@
+/* ================================
+   GLOBAL RESET
+   ================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Extra safety for form controls */
+.field input {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #eef6ff 0%, #f6fbff 45%, #edf2ff 100%);
+    color: #13263d;
+}
+
+a {
+    color: #2b6cb0;
+    text-decoration: none;
+    font-weight: 800;
+}
+a:hover { text-decoration: underline; }
+
+/* ================================
+   LAYOUT
+   ================================ */
+.site-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.site-main {
+    flex: 1;
+    padding: 24px 32px 32px;
+    position: relative;
+    z-index: 15;
+    min-width: 0;
+}
+
+/* ================================
+   HEADER
+   ================================ */
+.site-header {
+    background: linear-gradient(90deg, #bfe3ff, #e7f4ff, #b7c9ff);
+    padding: 16px 32px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    z-index: 20;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.brand-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 0%, #b9ddff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 800;
+    color: #113a5f;
+    box-shadow: 0 0 20px rgba(160, 205, 255, 0.6);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.brand-title {
+    font-size: 32px;
+    font-weight: 800;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    color: #113a5f;
+}
+
+.brand-pinyin {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f5fa0;
+}
+
+.brand-subtitle {
+    font-size: 12px;
+    opacity: 0.9;
+    color: #2a4c6a;
+}
+
+/* NAV */
+.main-nav {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.main-nav a {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.9);
+    color: #1f4b73;
+    font-weight: 800;
+}
+.main-nav a:hover { background: #ffffff; }
+
+/* ================================
+   FOOTER
+   ================================ */
+.site-footer {
+    background: #eef6ff;
+    border-top: 1px solid #d7e8ff;
+    padding: 12px 32px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #2a4c6a;
+    z-index: 20;
+}
+
+/* ================================
+   DASHBOARD
+   ================================ */
+.dashboard-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 0 30px;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.dashboard-title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 900;
+    color: #113a5f;
+}
+
+.dashboard-subtitle {
+    margin: 6px 0 0;
+    color: #2a4c6a;
+    font-size: 14px;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================================
+   CARD
+   ================================ */
+.kawaii-card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 18px 36px rgba(110, 165, 255, 0.18);
+    border: 1px solid rgba(180, 210, 255, 0.65);
+}
+
+.kawaii-card h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+/* ================================
+   TABLE (FIXED, SAFE FOR ALL PAGES)
+   ================================ */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 18px;
+    border: 1px solid rgba(180, 210, 255, 0.8);
+    background: rgba(255,255,255,0.75);
+    -webkit-overflow-scrolling: touch;
+}
+
+.kawaii-table {
+    width: 100%;
+    min-width: 1400px;
+    border-collapse: collapse;
+}
+
+.kawaii-table th,
+.kawaii-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(160,195,235,0.55);
+    vertical-align: top;
+    font-size: 14px;
+}
+
+/* headers one-line */
+.kawaii-table th {
+    background: linear-gradient(90deg, rgba(191,227,255,0.55), rgba(183,201,255,0.40));
+    font-weight: 900;
+    color: #113a5f;
+    white-space: nowrap;
+}
+
+/* cells WRAP (THIS FIXES MESSAGES) */
+.kawaii-table td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* message column */
+.message-cell {
+    max-width: 520px;
+    white-space: pre-wrap;
+    line-height: 1.35;
+}
+
+/* actions */
+.row-actions {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.9);
+    background: linear-gradient(90deg, #bfe3ff, #e7f4ff);
+    color: #113a5f;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(110,165,255,0.22);
+}
+
+.small-btn {
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.btn-danger {
+    border: none;
+    color: white;
+    background: linear-gradient(90deg, #ff8fb1, #ffb7d6);
+}
+
+.btn-messages {
+    background: linear-gradient(90deg, #cfe9ff, #eaf6ff);
+}
+
+.btn-bookings {
+    background: linear-gradient(90deg, #cfd7ff, #e9ecff);
+}
+
+/* ================================
+   MOBILE
+   ================================ */
+@media (max-width: 900px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+@keyframes pulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* ================================
+   TEACHERS TABLE — keep some cols in one line
+   (does NOT affect Messages page)
+   ================================ */
+
+.teachers-table th:nth-child(1),
+.teachers-table td:nth-child(1),  /* Id */
+.teachers-table th:nth-child(6),
+.teachers-table td:nth-child(6),  /* Phone */
+.teachers-table th:nth-child(7),
+.teachers-table td:nth-child(7),  /* Email */
+.teachers-table th:nth-child(10),
+.teachers-table td:nth-child(10)  /* Capacity */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Optional: nicer widths (helps prevent wrapping) */
+.teachers-table th:nth-child(1),
+.teachers-table td:nth-child(1) { min-width: 70px; }
+
+.teachers-table th:nth-child(6),
+.teachers-table td:nth-child(6) { min-width: 160px; }
+
+.teachers-table th:nth-child(7),
+.teachers-table td:nth-child(7) { min-width: 260px; }
+
+.teachers-table th:nth-child(5),
+.teachers-table td:nth-child(5) { white-space: nowrap; }
+
+/* ================================
+   FORMS (Admin)
+   ================================ */
+
+.kawaii-form { width: 100%; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    margin-top: 10px;
+}
+
+.field { min-width: 0; }
+
+.field label {
+    display: block;
+    font-weight: 900;
+    color: #113a5f;
+    font-size: 13px;
+    margin: 0 0 6px;
+}
+
+.field input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(160,195,235,0.65);
+    background: rgba(255,255,255,0.9);
+    outline: none;
+    color: #13263d;
+    font-size: 14px;
+}
+
+.field input:focus {
+    border-color: rgba(31,95,160,0.55);
+    box-shadow: 0 0 0 4px rgba(191,227,255,0.35);
+}
+
+.field-error {
+    margin-top: 6px;
+    color: #c53030;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+/* Button variants */
+.btn-ghost {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(160,195,235,0.55);
+    color: #113a5f;
+}
+
+.btn-primary {
+    border: none;
+    color: #113a5f;
+    background: linear-gradient(90deg, #bfe3ff, #e7f4ff, #b7c9ff);
+}
+
+/* Mobile */
+@media (max-width: 820px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+/* ================================
+   BOOKINGS TABLE tweaks
+   ================================ */
+
+.bookings-table th:nth-child(1),
+.bookings-table td:nth-child(1), /* Lesson date */
+.bookings-table th:nth-child(2),
+.bookings-table td:nth-child(2), /* Lesson time */
+.bookings-table th:nth-child(3),
+.bookings-table td:nth-child(3), /* Status */
+.bookings-table th:nth-child(10),
+.bookings-table td:nth-child(10) /* Actions */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Note can be long -> allow wrapping and give it space */
+.note-cell {
+    max-width: 420px;
+    white-space: pre-wrap;
+    line-height: 1.35;
+}
+
+/* Optional: make status look like a pill */
+.status-cell {
+    font-weight: 900;
+}
+
+/* ================================
+   STUDENTS TABLE — keep key cols in one line
+   ================================ */
+
+.students-table th:nth-child(1),
+.students-table td:nth-child(1), /* ID */
+.students-table th:nth-child(2),
+.students-table td:nth-child(2), /* Username */
+.students-table th:nth-child(3),
+.students-table td:nth-child(3), /* Email */
+.students-table th:nth-child(5),
+.students-table td:nth-child(5), /* Phone */
+.students-table th:nth-child(6),
+.students-table td:nth-child(6)  /* Created at */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.students-table th:nth-child(3),
+.students-table td:nth-child(3) { min-width: 260px; } /* Email */
+.students-table th:nth-child(2),
+.students-table td:nth-child(2) { min-width: 160px; } /* Username */
+.students-table th:nth-child(5),
+.students-table td:nth-child(5) { min-width: 160px; } /* Phone */
+
+/* ================================
+   STUDENT BOOKINGS TABLE tweaks
+   ================================ */
+
+.student-bookings-table th:nth-child(2),
+.student-bookings-table td:nth-child(2), /* Date */
+.student-bookings-table th:nth-child(3),
+.student-bookings-table td:nth-child(3), /* Time */
+.student-bookings-table th:nth-child(4),
+.student-bookings-table td:nth-child(4), /* Status */
+.student-bookings-table th:nth-child(6),
+.student-bookings-table td:nth-child(6)  /* Created at */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.student-bookings-table .note-cell {
+    max-width: 420px;
+    white-space: pre-wrap;
+    line-height: 1.35;
+}
+
+.student-bookings-table .status-cell {
+    font-weight: 900;
+}
+
+/* ================================
+   ADMIN ALL MESSAGES TABLE tweaks
+   ================================ */
+
+.admin-messages-table th:nth-child(1),
+.admin-messages-table td:nth-child(1), /* Sent at */
+.admin-messages-table th:nth-child(4),
+.admin-messages-table td:nth-child(4), /* Username */
+.admin-messages-table th:nth-child(6),
+.admin-messages-table td:nth-child(6), /* Phone */
+.admin-messages-table th:nth-child(8),
+.admin-messages-table td:nth-child(8)  /* Actions */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* ================================
+   ADMIN ALL BOOKINGS TABLE tweaks
+   ================================ */
+
+.admin-bookings-table th:nth-child(1),
+.admin-bookings-table td:nth-child(1), /* Lesson date */
+.admin-bookings-table th:nth-child(2),
+.admin-bookings-table td:nth-child(2), /* Lesson time */
+.admin-bookings-table th:nth-child(3),
+.admin-bookings-table td:nth-child(3), /* Status */
+.admin-bookings-table th:nth-child(10),
+.admin-bookings-table td:nth-child(10), /* Created at */
+.admin-bookings-table th:nth-child(11),
+.admin-bookings-table td:nth-child(11) /* Actions */
+{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.admin-bookings-table .note-cell {
+    max-width: 420px;
+    white-space: pre-wrap;
+    line-height: 1.35;
+}
+
+.admin-bookings-table .status-cell {
+    font-weight: 900;
+}
