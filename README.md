@@ -97,8 +97,11 @@ Created by **Milena Mrugała** This project was developed as a portfolio applica
 
 <img width="1379" height="774" alt="Zrzut ekranu 2026-01-17 o 17 04 18" src="https://github.com/user-attachments/assets/4686feae-2e82-44fb-9c28-9d4e7a84bc5b" />
 
+<img width="1274" height="651" alt="Zrzut ekranu 2026-01-21 o 18 54 51" src="https://github.com/user-attachments/assets/a691c97c-8609-4d4a-8a16-76d7e3e2be6a" />
 
+<img width="1293" height="774" alt="Zrzut ekranu 2026-01-21 o 18 55 12" src="https://github.com/user-attachments/assets/5c3facf4-f28d-492b-9b1a-e435895a08a9" />
 
+<img width="1275" height="760" alt="Zrzut ekranu 2026-01-21 o 18 55 38" src="https://github.com/user-attachments/assets/85063dfa-1aed-4f14-8429-97a5d97bd3ac" />
 
 
 
