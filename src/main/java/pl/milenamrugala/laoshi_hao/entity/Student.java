@@ -20,6 +20,7 @@ public class Student {
     private String lastName;
     private String phone;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public Student() {
@@ -85,5 +86,10 @@ public class Student {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
     }
 }
