@@ -86,24 +86,18 @@ The project was built as a full-stack Spring Boot application with a custom UI a
 
 Created by **Milena Mrugała** This project was developed as a portfolio application to demonstrate full-stack Java & Spring skills.
 
+<img width="1298" height="777" alt="Zrzut ekranu 2026-01-22 o 20 18 46" src="https://github.com/user-attachments/assets/d2e72714-c0f9-43e2-842d-d7dba53fa52c" />
 
-<img width="1389" height="775" alt="Zrzut ekranu 2026-01-17 o 17 02 47" src="https://github.com/user-attachments/assets/d6b9bd1a-9426-4be6-82b6-4fde9a57687d" />
+<img width="1281" height="776" alt="Zrzut ekranu 2026-01-22 o 20 18 58" src="https://github.com/user-attachments/assets/173d1d3b-c0c1-4488-a079-27169182280b" />
 
-<img width="1380" height="769" alt="Zrzut ekranu 2026-01-17 o 17 02 58" src="https://github.com/user-attachments/assets/a9cb9d6e-c571-4f5e-ab3e-d46318dc2466" />
+<img width="1281" height="775" alt="Zrzut ekranu 2026-01-22 o 20 19 09" src="https://github.com/user-attachments/assets/68c65769-1e4e-4928-83cd-6d9adf860da6" />
 
-<img width="1391" height="771" alt="Zrzut ekranu 2026-01-17 o 17 03 47" src="https://github.com/user-attachments/assets/a401c08f-4f84-408c-a2f9-7c6f4af0f22b" />
+<img width="1298" height="776" alt="Zrzut ekranu 2026-01-22 o 20 19 33" src="https://github.com/user-attachments/assets/5c40aae4-b33f-4c0a-8d15-ecd929cd3588" />
 
-<img width="1384" height="768" alt="Zrzut ekranu 2026-01-17 o 17 04 04" src="https://github.com/user-attachments/assets/4eb1c272-b1d1-4fbd-b12b-b7aa934ff9ad" />
+<img width="1283" height="778" alt="Zrzut ekranu 2026-01-22 o 20 20 03" src="https://github.com/user-attachments/assets/0b663396-19de-4d5d-80a8-2ee53b824183" />
 
-<img width="1379" height="774" alt="Zrzut ekranu 2026-01-17 o 17 04 18" src="https://github.com/user-attachments/assets/4686feae-2e82-44fb-9c28-9d4e7a84bc5b" />
+<img width="1283" height="777" alt="Zrzut ekranu 2026-01-22 o 20 20 16" src="https://github.com/user-attachments/assets/72802565-fa4a-45ad-8f64-54917781286a" />
 
-<img width="1274" height="651" alt="Zrzut ekranu 2026-01-21 o 18 54 51" src="https://github.com/user-attachments/assets/a691c97c-8609-4d4a-8a16-76d7e3e2be6a" />
+<img width="1283" height="753" alt="Zrzut ekranu 2026-01-22 o 20 20 38" src="https://github.com/user-attachments/assets/b19b44db-a517-41fd-8f6d-7807ca697eb0" />
 
-<img width="1293" height="774" alt="Zrzut ekranu 2026-01-21 o 18 55 12" src="https://github.com/user-attachments/assets/5c3facf4-f28d-492b-9b1a-e435895a08a9" />
-
-<img width="1275" height="760" alt="Zrzut ekranu 2026-01-21 o 18 55 38" src="https://github.com/user-attachments/assets/85063dfa-1aed-4f14-8429-97a5d97bd3ac" />
-
-
-
-
-
+<img width="1272" height="780" alt="Zrzut ekranu 2026-01-22 o 20 20 50" src="https://github.com/user-attachments/assets/850063f4-3036-4473-92d3-4021ebe40af0" />
