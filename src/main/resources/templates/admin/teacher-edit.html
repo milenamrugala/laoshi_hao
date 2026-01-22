@@ -46,15 +46,27 @@
                 <div class="field-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
               </div>
 
+              <!-- ✅ Language taught -->
               <div class="field">
                 <label>Language taught</label>
-                <input th:field="*{language}" type="text"/>
+                <select th:field="*{language}">
+                  <option value="">-- select language --</option>
+                  <option th:each="lang : ${languages}"
+                          th:value="${lang}"
+                          th:text="${lang}"></option>
+                </select>
                 <div class="field-error" th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></div>
               </div>
 
+              <!-- ✅ City -->
               <div class="field">
                 <label>City</label>
-                <input th:field="*{city}" type="text"/>
+                <select th:field="*{city}">
+                  <option value="">-- select city --</option>
+                  <option th:each="c : ${cities}"
+                          th:value="${c}"
+                          th:text="${c}"></option>
+                </select>
                 <div class="field-error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
               </div>
 
@@ -76,15 +88,27 @@
                 <div class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
               </div>
 
+              <!-- ✅ Nationality -->
               <div class="field">
                 <label>Nationality</label>
-                <input th:field="*{nationality}" type="text"/>
+                <select th:field="*{nationality}">
+                  <option value="">-- select nationality --</option>
+                  <option th:each="nat : ${nationalities}"
+                          th:value="${nat}"
+                          th:text="${nat}"></option>
+                </select>
                 <div class="field-error" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"></div>
               </div>
 
+              <!-- ✅ Native language -->
               <div class="field">
                 <label>Native language</label>
-                <input th:field="*{nativeLanguage}" type="text"/>
+                <select th:field="*{nativeLanguage}">
+                  <option value="">-- select native language --</option>
+                  <option th:each="lang : ${languages}"
+                          th:value="${lang}"
+                          th:text="${lang}"></option>
+                </select>
                 <div class="field-error" th:if="${#fields.hasErrors('nativeLanguage')}" th:errors="*{nativeLanguage}"></div>
               </div>
 

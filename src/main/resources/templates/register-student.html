@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Register – Student | Laoshi Hao</title>
+  <title>Laoshi Hao: Register Student</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -15,7 +15,7 @@
       <div class="form-card">
 
         <h1>Student registration</h1>
-        <p class="subtitle">Create your student profile ✨</p>
+        <p class="subtitle">Create your student profile</p>
 
         <form th:action="@{/register/student}"
               th:object="${studentForm}"
@@ -24,7 +24,7 @@
 
           <div class="form-field">
             <label for="firstName">First name</label>
-            <input id="firstName" th:field="*{firstName}" type="text">
+            <input id="firstName" th:field="*{firstName}" type="text" placeholder="e.g. Milena">
             <div class="form-error"
                  th:if="${#fields.hasErrors('firstName')}"
                  th:errors="*{firstName}"></div>
@@ -32,7 +32,7 @@
 
           <div class="form-field">
             <label for="lastName">Last name</label>
-            <input id="lastName" th:field="*{lastName}" type="text">
+            <input id="lastName" th:field="*{lastName}" type="text" placeholder="e.g. Mrugała">
             <div class="form-error"
                  th:if="${#fields.hasErrors('lastName')}"
                  th:errors="*{lastName}"></div>
@@ -40,7 +40,7 @@
 
           <div class="form-field">
             <label for="username">Username</label>
-            <input id="username" th:field="*{username}" type="text" placeholder="e.g. anna123">
+            <input id="username" th:field="*{username}" type="text" placeholder="e.g. milena.mrugala">
             <div class="form-error"
                  th:if="${#fields.hasErrors('username')}"
                  th:errors="*{username}"></div>
@@ -48,7 +48,7 @@
 
           <div class="form-field">
             <label for="email">Email</label>
-            <input id="email" th:field="*{email}" type="email" placeholder="e.g. anna@gmail.com">
+            <input id="email" th:field="*{email}" type="email" placeholder="e.g. milena.mrugala@test.com">
             <div class="form-error"
                  th:if="${#fields.hasErrors('email')}"
                  th:errors="*{email}"></div>
@@ -56,7 +56,7 @@
 
           <div class="form-field">
             <label for="phone">Phone</label>
-            <input id="phone" th:field="*{phone}" type="text" placeholder="+48123456789">
+            <input id="phone" th:field="*{phone}" type="text" placeholder="e.g. +48123456789">
             <div class="form-error"
                  th:if="${#fields.hasErrors('phone')}"
                  th:errors="*{phone}"></div>

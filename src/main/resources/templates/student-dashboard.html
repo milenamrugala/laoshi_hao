@@ -64,7 +64,7 @@
         <div class="kawaii-card">
           <h2>Quick actions</h2>
           <p>Here you can review your bookings and see your recent messages.</p>
-          <p>Tip: message a teacher if you want to change a time or ask questions 💌</p>
+          <p>Tip: message a teacher if you want to change a time or ask questions.</p>
 
           <div class="dashboard-actions" style="justify-content:flex-start; margin-top:12px;">
             <a class="btn" th:href="@{'/students/' + ${student.id} + '/dashboard'}">Refresh</a>
@@ -188,7 +188,7 @@
             </table>
           </div>
 
-          <p th:if="${#lists.size(recentMessages) == 0}">No messages yet 💌</p>
+          <p th:if="${#lists.size(recentMessages) == 0}">No messages yet</p>
         </div>
 
       </div>

@@ -47,7 +47,7 @@
               <p><strong>Language:</strong> <span th:text="${teacher.language}">English</span></p>
               <p><strong>City:</strong> <span th:text="${teacher.city}">Warsaw</span></p>
               <p><strong>Native language:</strong> <span th:text="${teacher.nativeLanguage}">Chinese</span></p>
-              <p><strong>Nationality:</strong> <span th:text="${teacher.nationality}">China</span></p>
+              <p><strong>Nationality:</strong> <span th:text="${teacher.nationality}">Chinese</span></p>
 
               <div class="badge-row">
                 <div class="badge">
@@ -64,10 +64,9 @@
           </div>
         </div>
 
-        <!-- Cute tips / quick info -->
         <div class="kawaii-card">
           <h2>Quick actions</h2>
-          <p>Here you can confirm/cancel bookings and manage your messages.</p>
+          <p>Here you can confirm/ cancel bookings and manage your messages.</p>
           <p>Tip: keep your profile updated so students trust you more.</p>
 
           <div class="dashboard-actions" style="justify-content:flex-start; margin-top:12px;">
@@ -89,7 +88,11 @@
               <tr>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Student</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Notes</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -98,7 +101,11 @@
               <tr th:each="b : ${upcomingBookings}">
                 <td th:text="${b.lessonDate}">2026-01-16</td>
                 <td th:text="${b.lessonTime}">18:00</td>
-                <td th:text="${b.student.username}">anna123</td>
+                <td th:text="${b.student.firstName}">Anna</td>
+                <td th:text="${b.student.lastName}">Nowak</td>
+                <td th:text="${b.student.username}">anna.nowak</td>
+                <td th:text="${b.student.email}">anna.nowak@test.com</td>
+                <td th:text="${b.note}">note</td>
                 <td>
                   <span class="status-pill"
                         th:classappend="${#strings.equalsIgnoreCase(b.status,'PENDING')} ? ' status-pending' :
@@ -108,7 +115,8 @@
                   </span>
                 </td>
                 <td>
-                  <div class="row-actions" th:if="${!#strings.equalsIgnoreCase(b.status,'CANCELLED')}">
+                  <!-- PENDING: Confirm + Cancel -->
+                  <div class="row-actions" th:if="${#strings.equalsIgnoreCase(b.status,'PENDING')}">
                     <form th:action="@{'/teachers/' + ${teacher.id} + '/bookings/' + ${b.id} + '/confirm'}"
                           method="post" style="display:inline;">
                       <button class="btn btn-primary small-btn" type="submit">Confirm</button>
@@ -123,7 +131,21 @@
                     </form>
                   </div>
 
-                  <span th:if="${#strings.equalsIgnoreCase(b.status,'CANCELLED')}">No action available</span>
+                  <!-- CONFIRMED: tylko Cancel -->
+                  <div class="row-actions" th:if="${#strings.equalsIgnoreCase(b.status,'CONFIRMED')}">
+                    <form th:action="@{'/teachers/' + ${teacher.id} + '/bookings/' + ${b.id} + '/cancel'}"
+                          method="post" style="display:inline;">
+                      <button class="btn btn-danger small-btn" type="submit"
+                              onclick="return confirm('Cancel this booking?');">
+                        Cancel
+                      </button>
+                    </form>
+                  </div>
+
+                  <!-- CANCELLED: brak akcji -->
+                  <span th:if="${#strings.equalsIgnoreCase(b.status,'CANCELLED')}">
+    No action available
+  </span>
                 </td>
               </tr>
               </tbody>
@@ -143,7 +165,11 @@
               <tr>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Student</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Notes</th>
                 <th>Status</th>
               </tr>
               </thead>
@@ -151,7 +177,11 @@
               <tr th:each="b : ${pastBookings}">
                 <td th:text="${b.lessonDate}">2026-01-10</td>
                 <td th:text="${b.lessonTime}">16:00</td>
-                <td th:text="${b.student.username}">anna123</td>
+                <td th:text="${b.student.firstName}">Anna</td>
+                <td th:text="${b.student.lastName}">Nowak</td>
+                <td th:text="${b.student.username}">anna.nowak</td>
+                <td th:text="${b.student.email}">anna.nowak@test.com</td>
+                <td th:text="${b.note}">note</td>
                 <td>
                   <span class="status-pill"
                         th:classappend="${#strings.equalsIgnoreCase(b.status,'PENDING')} ? ' status-pending' :
@@ -176,7 +206,9 @@
             <table class="kawaii-table">
               <thead>
               <tr>
-                <th>From</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Username</th>
                 <th>Email</th>
                 <th>Message</th>
                 <th>Created</th>
@@ -185,7 +217,9 @@
               </thead>
               <tbody>
               <tr th:each="m : ${recentMessages}">
-                <td th:text="${m.student.username}">anna123</td>
+                <td th:text="${m.student.firstName}">Anna</td>
+                <td th:text="${m.student.lastName}">Nowak</td>
+                <td th:text="${m.student.username}">anna.nowak</td>
                 <td th:text="${m.student.email}">anna@gmail.com</td>
                 <td th:text="${m.content}">Hello!</td>
                 <td th:text="${m.createdAt}">2026-01-16T10:00</td>

@@ -17,7 +17,7 @@
                 <h1>Book a lesson</h1>
                 <p class="subtitle">
                     Send a booking request to
-                    <strong th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">Teacher Name</strong> ✨
+                    <strong th:text="${teacher.firstName} + ' ' + ${teacher.lastName}">Teacher Name</strong>
                 </p>
 
                 <form th:action="@{|/teachers/${teacher.id}/booking|}"
@@ -27,7 +27,7 @@
 
                     <div class="form-field">
                         <label>Your first name</label>
-                        <input th:field="*{studentFirstName}" type="text"
+                        <input th:field="*{studentFirstName}" type="text" placeholder="e.g. Milena"
                                th:classappend="${#fields.hasErrors('studentFirstName')} ? ' input-error' : ''">
                         <div class="form-error" th:if="${#fields.hasErrors('studentFirstName')}"
                              th:errors="*{studentFirstName}"></div>
@@ -35,7 +35,7 @@
 
                     <div class="form-field">
                         <label>Your last name</label>
-                        <input th:field="*{studentLastName}" type="text"
+                        <input th:field="*{studentLastName}" type="text" placeholder="e.g. Mrugała"
                                th:classappend="${#fields.hasErrors('studentLastName')} ? ' input-error' : ''">
                         <div class="form-error" th:if="${#fields.hasErrors('studentLastName')}"
                              th:errors="*{studentLastName}"></div>
@@ -43,7 +43,7 @@
 
                     <div class="form-field">
                         <label>Your username</label>
-                        <input th:field="*{studentUsername}" type="text" placeholder="e.g. anna123"
+                        <input th:field="*{studentUsername}" type="text" placeholder="e.g. milena.mrugala"
                                th:classappend="${#fields.hasErrors('studentUsername')} ? ' input-error' : ''">
                         <div class="form-error" th:if="${#fields.hasErrors('studentUsername')}"
                              th:errors="*{studentUsername}"></div>
@@ -51,7 +51,7 @@
 
                     <div class="form-field">
                         <label>Your email</label>
-                        <input th:field="*{studentEmail}" type="email" placeholder="e.g. anna@gmail.com"
+                        <input th:field="*{studentEmail}" type="email" placeholder="e.g. milena.mrugala@test.com"
                                th:classappend="${#fields.hasErrors('studentEmail')} ? ' input-error' : ''">
                         <div class="form-error" th:if="${#fields.hasErrors('studentEmail')}"
                              th:errors="*{studentEmail}"></div>
@@ -65,7 +65,7 @@
                              th:errors="*{studentPhone}"></div>
                     </div>
 
-                    <!-- data i godzina POD SOBĄ -->
+
                     <div class="form-field">
                         <label>Preferred date</label>
                         <input th:field="*{lessonDate}" type="date"
@@ -84,13 +84,13 @@
 
                     <div class="form-field">
                         <label>Note (optional)</label>
-                        <textarea th:field="*{note}" rows="5" placeholder="Any details for the teacher? ✨"
+                        <textarea th:field="*{note}" rows="5" placeholder="Any details for the teacher?"
                                   th:classappend="${#fields.hasErrors('note')} ? ' input-error' : ''"></textarea>
                         <div class="form-error" th:if="${#fields.hasErrors('note')}"
                              th:errors="*{note}"></div>
                     </div>
 
-                    <!-- global errors MUSZĄ być w form -->
+
                     <div class="form-error" th:if="${#fields.hasGlobalErrors()}">
                         <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">Error</div>
                     </div>
