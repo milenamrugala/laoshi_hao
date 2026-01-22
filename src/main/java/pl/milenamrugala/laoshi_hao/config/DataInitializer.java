@@ -21,6 +21,7 @@ public class DataInitializer {
                 t1.setNationality("Polish");
                 t1.setNativeLanguage("Polish");
                 t1.setCapacity(3);
+                t1.setCreatedAt();
                 teacherRepository.save(t1);
 
                 Teacher t2 = new Teacher("Rodrigo", "Lopez", "Spanish", "Cracow");
@@ -30,6 +31,7 @@ public class DataInitializer {
                 t2.setNationality("Spanish");
                 t2.setNativeLanguage("Spanish");
                 t2.setCapacity(3);
+                t2.setCreatedAt();
                 teacherRepository.save(t2);
 
                 Teacher t3 = new Teacher("Dongming", "Li", "Chinese", "Online");
@@ -39,6 +41,7 @@ public class DataInitializer {
                 t3.setNationality("Chinese");
                 t3.setNativeLanguage("Chinese");
                 t3.setCapacity(3);
+                t3.setCreatedAt();
                 teacherRepository.save(t3);
             }
         };
