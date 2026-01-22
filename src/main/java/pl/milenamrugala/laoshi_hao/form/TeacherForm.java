@@ -1,10 +1,8 @@
 package pl.milenamrugala.laoshi_hao.form;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 public class TeacherForm {
 
@@ -57,6 +55,10 @@ public class TeacherForm {
     @Min(value = 1, message = "Capacity must be at least 1")
     @Max(value = 100, message = "Capacity cannot be greater than 100")
     private Integer capacity;
+
+    @DecimalMin(value = "0.00", message = "Price must be 0 or more")
+    @Digits(integer = 6, fraction = 2, message = "Price can have up to 2 decimal places")
+    private BigDecimal pricePerHour;
 
     // getters and setters
 
@@ -141,4 +143,8 @@ public class TeacherForm {
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
+
+    public BigDecimal getPricePerHour() { return pricePerHour; }
+
+    public void setPricePerHour(BigDecimal pricePerHour) { this.pricePerHour = pricePerHour; }
 }

@@ -2,6 +2,9 @@ package pl.milenamrugala.laoshi_hao.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
 public class Teacher {
 
@@ -23,8 +26,14 @@ public class Teacher {
     private String nativeLanguage;
     private Integer capacity;
 
+    @Column(precision = 10, scale = 2)
+    private BigDecimal pricePerHour;
+
     @Column(name = "photo_filename")
     private String photoFilename;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     public Teacher() {
     }
@@ -34,6 +43,7 @@ public class Teacher {
         this.lastName = lastName;
         this.language = language;
         this.city = city;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -128,5 +138,18 @@ public class Teacher {
 
     public void setPhotoFilename(String photoFilename) {
         this.photoFilename = photoFilename;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public BigDecimal getPricePerHour() { return pricePerHour; }
+
+    public void setPricePerHour(BigDecimal pricePerHour) { this.pricePerHour = pricePerHour; }
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
     }
 }
