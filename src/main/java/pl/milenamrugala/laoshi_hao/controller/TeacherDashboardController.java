@@ -1,25 +1,23 @@
 package pl.milenamrugala.laoshi_hao.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.milenamrugala.laoshi_hao.entity.Teacher;
 import pl.milenamrugala.laoshi_hao.entity.Booking;
 import pl.milenamrugala.laoshi_hao.entity.Message;
-import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
+import pl.milenamrugala.laoshi_hao.entity.Teacher;
+import pl.milenamrugala.laoshi_hao.form.TeacherForm;
 import pl.milenamrugala.laoshi_hao.repository.BookingRepository;
 import pl.milenamrugala.laoshi_hao.repository.MessageRepository;
-import jakarta.validation.Valid;
-import org.springframework.validation.BindingResult;
-import pl.milenamrugala.laoshi_hao.form.TeacherForm;
+import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-// import java.nio.file.StandardCopyOption; // not needed right now
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,6 +27,21 @@ public class TeacherDashboardController {
     private final TeacherRepository teacherRepository;
     private final BookingRepository bookingRepository;
     private final MessageRepository messageRepository;
+
+    // ====== Dropdown / autocomplete data (same idea as in registration) ======
+    private static final List<String> LANGUAGES = List.of(
+            "English", "Chinese", "Polish", "German", "Spanish", "French",
+            "Italian", "Japanese", "Korean"
+    );
+
+    private static final List<String> NATIONALITIES = List.of(
+            "Polish", "Chinese", "German", "Spanish", "French", "Italian",
+            "Japanese", "Korean", "Ukrainian", "American", "British"
+    );
+
+    private static final List<String> CITIES = List.of(
+            "Online", "Warsaw", "Krakow", "Wroclaw", "Gdansk", "Poznan", "Lodz"
+    );
 
     public TeacherDashboardController(TeacherRepository teacherRepository,
                                       BookingRepository bookingRepository,
@@ -116,10 +129,13 @@ public class TeacherDashboardController {
         form.setCapacity(teacher.getCapacity());
         form.setNativeLanguage(teacher.getNativeLanguage());
         form.setNationality(teacher.getNationality());
+        form.setPricePerHour(teacher.getPricePerHour());
 
         model.addAttribute("teacherForm", form);
         model.addAttribute("teacherId", id);
         model.addAttribute("teacher", teacher); // for photo preview
+
+        addTeacherDropdownData(model);
 
         return "teacher-edit";
     }
@@ -130,12 +146,13 @@ public class TeacherDashboardController {
                                     BindingResult bindingResult,
                                     Model model) {
 
-        System.out.println(">>> UPDATE TEACHER SELF CALLED for id = " + id);
-        System.out.println("FORM values: language=" + teacherForm.getLanguage()
-                + ", capacity=" + teacherForm.getCapacity());
-
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Teacher not found"));
+
+        // Always needed when returning back to the form on errors
+        model.addAttribute("teacherId", id);
+        model.addAttribute("teacher", teacher);
+        addTeacherDropdownData(model);
 
         // unique username
         teacherRepository.findByUsername(teacherForm.getUsername())
@@ -155,19 +172,31 @@ public class TeacherDashboardController {
                         "This email is already used. Choose another."
                 ));
 
-        System.out.println("bindingResult.hasErrors() = " + bindingResult.hasErrors());
-
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(err ->
-                    System.out.println("  ERROR: " + err.toString())
-            );
-            model.addAttribute("teacherId", id);
-            model.addAttribute("teacher", teacher);
-            return "teacher-edit";
+        // validate dropdown-like fields against allowed lists
+        if (teacherForm.getLanguage() != null && !teacherForm.getLanguage().isBlank()
+                && !LANGUAGES.contains(teacherForm.getLanguage())) {
+            bindingResult.rejectValue("language", "invalid.language", "Please select a language from the list.");
         }
 
-        System.out.println("BEFORE UPDATE entity: language=" + teacher.getLanguage()
-                + ", capacity=" + teacher.getCapacity());
+        if (teacherForm.getNativeLanguage() != null && !teacherForm.getNativeLanguage().isBlank()
+                && !LANGUAGES.contains(teacherForm.getNativeLanguage())) {
+            bindingResult.rejectValue("nativeLanguage", "invalid.nativeLanguage", "Please select a native language from the list.");
+        }
+
+        if (teacherForm.getNationality() != null && !teacherForm.getNationality().isBlank()
+                && !NATIONALITIES.contains(teacherForm.getNationality())) {
+            bindingResult.rejectValue("nationality", "invalid.nationality", "Please select a nationality from the list.");
+        }
+
+        // If city is a select/datalist, enforce allowed values:
+        if (teacherForm.getCity() != null && !teacherForm.getCity().isBlank()
+                && !CITIES.contains(teacherForm.getCity())) {
+            bindingResult.rejectValue("city", "invalid.city", "Please select a city from the list.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "teacher-edit";
+        }
 
         teacher.setFirstName(teacherForm.getFirstName());
         teacher.setLastName(teacherForm.getLastName());
@@ -179,14 +208,9 @@ public class TeacherDashboardController {
         teacher.setCity(teacherForm.getCity());
         teacher.setNativeLanguage(teacherForm.getNativeLanguage());
         teacher.setNationality(teacherForm.getNationality());
+        teacher.setPricePerHour(teacherForm.getPricePerHour());
 
         teacherRepository.save(teacher);
-
-        // sprawdź, co poszło do bazy
-        teacherRepository.findById(id).ifPresent(t ->
-                System.out.println("AFTER SAVE FROM DB: language=" + t.getLanguage()
-                        + ", capacity=" + t.getCapacity())
-        );
 
         return "redirect:/teachers/" + id + "/dashboard";
     }
@@ -201,7 +225,6 @@ public class TeacherDashboardController {
                 .orElseThrow(() -> new IllegalArgumentException("Teacher not found"));
 
         if (photo == null || photo.isEmpty()) {
-            // nothing selected → go back to edit
             return "redirect:/teachers/" + id + "/edit";
         }
 
@@ -314,5 +337,13 @@ public class TeacherDashboardController {
         messageRepository.delete(message);
 
         return "redirect:/teachers/" + teacherId + "/dashboard";
+    }
+
+    // ===================== helpers =====================
+
+    private void addTeacherDropdownData(Model model) {
+        model.addAttribute("languages", LANGUAGES);
+        model.addAttribute("nationalities", NATIONALITIES);
+        model.addAttribute("cities", CITIES);
     }
 }

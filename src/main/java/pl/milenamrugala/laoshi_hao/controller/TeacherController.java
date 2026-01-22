@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.milenamrugala.laoshi_hao.entity.Teacher;
+import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Controller
 public class TeacherController {
@@ -19,9 +20,25 @@ public class TeacherController {
     }
 
     @GetMapping("/teachers")
-    public String teachers(Model model) {
-        List<Teacher> teachers = teacherRepository.findAll();
-        model.addAttribute("teachers", teachers);
+    public String teachers(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(value = "maxPrice", required = false) String maxPrice,
+            Model model
+    ) {
+        String query = (q == null) ? "" : q.trim();
+
+        BigDecimal max = null;
+        if (maxPrice != null && !maxPrice.trim().isEmpty()) {
+            try {
+                max = new BigDecimal(maxPrice.trim());
+            } catch (NumberFormatException e) {
+                max = null;
+            }
+        }
+
+        model.addAttribute("teachers", teacherRepository.search(query, max));
+        model.addAttribute("q", query);
+        model.addAttribute("maxPrice", maxPrice);
         return "teachers";
     }
 

@@ -1,19 +1,18 @@
 package pl.milenamrugala.laoshi_hao.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.milenamrugala.laoshi_hao.entity.Teacher;
 import pl.milenamrugala.laoshi_hao.form.TeacherForm;
 import pl.milenamrugala.laoshi_hao.repository.BookingRepository;
 import pl.milenamrugala.laoshi_hao.repository.MessageRepository;
 import pl.milenamrugala.laoshi_hao.repository.TeacherRepository;
-import pl.milenamrugala.laoshi_hao.entity.Teacher;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Controller
 public class AdminTeacherController {
@@ -21,6 +20,21 @@ public class AdminTeacherController {
     private final TeacherRepository teacherRepository;
     private final MessageRepository messageRepository;
     private final BookingRepository bookingRepository;
+
+    // ====== Dropdown data ======
+    private static final List<String> LANGUAGES = List.of(
+            "English", "Chinese", "Polish", "German", "Spanish", "French",
+            "Italian", "Japanese", "Korean"
+    );
+
+    private static final List<String> NATIONALITIES = List.of(
+            "Polish", "Chinese", "German", "Spanish", "French", "Italian",
+            "Japanese", "Korean", "Ukrainian", "American", "British"
+    );
+
+    private static final List<String> CITIES = List.of(
+            "Online", "Warsaw", "Krakow", "Wroclaw", "Gdansk", "Poznan", "Lodz"
+    );
 
     public AdminTeacherController(TeacherRepository teacherRepository,
                                   MessageRepository messageRepository,
@@ -39,29 +53,41 @@ public class AdminTeacherController {
     @GetMapping("/admin/teachers/new")
     public String showNewTeacherForm(Model model) {
         model.addAttribute("teacherForm", new TeacherForm());
+        addTeacherDropdownData(model);
         return "admin/teacher-form";
     }
 
     @PostMapping("/admin/teachers")
-    public String createTeacher(@Valid TeacherForm teacherForm,
+    public String createTeacher(@Valid @ModelAttribute("teacherForm") TeacherForm teacherForm,
                                 BindingResult bindingResult,
                                 Model model) {
 
-        // Check if username already exists
-        if (teacherRepository.findByUsername(teacherForm.getUsername()).isPresent()) {
-            bindingResult.rejectValue(
-                    "username",
-                    "error.username",
-                    "This username is already taken. Please choose another."
-            );
-        }
+        // always needed on errors (so selects are filled)
+        addTeacherDropdownData(model);
 
-        // If validation errors, redisplay the form
+        // Check if username already exists
+        teacherRepository.findByUsername(teacherForm.getUsername())
+                .ifPresent(t -> bindingResult.rejectValue(
+                        "username",
+                        "error.username",
+                        "This username is already taken. Please choose another."
+                ));
+
+        // Check if email already exists (recommended, like in other controllers)
+        teacherRepository.findByEmail(teacherForm.getEmail())
+                .ifPresent(t -> bindingResult.rejectValue(
+                        "email",
+                        "error.email",
+                        "This email is already used. Please choose another."
+                ));
+
+        // validate dropdown-like fields against allowed lists
+        validateTeacherDropdownFields(teacherForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "admin/teacher-form";
         }
 
-        // Create new teacher
         Teacher teacher = new Teacher(
                 teacherForm.getFirstName(),
                 teacherForm.getLastName(),
@@ -75,7 +101,6 @@ public class AdminTeacherController {
         teacher.setNationality(teacherForm.getNationality());
         teacher.setNativeLanguage(teacherForm.getNativeLanguage());
         teacher.setCapacity(teacherForm.getCapacity());
-
 
         teacherRepository.save(teacher);
 
@@ -102,14 +127,20 @@ public class AdminTeacherController {
         model.addAttribute("teacherForm", form);
         model.addAttribute("teacherId", id);
 
+        addTeacherDropdownData(model);
+
         return "admin/teacher-edit";
     }
 
     @PostMapping("/admin/teachers/{id}/edit")
     public String updateTeacher(@PathVariable Long id,
-                                @Valid TeacherForm teacherForm,
+                                @Valid @ModelAttribute("teacherForm") TeacherForm teacherForm,
                                 BindingResult bindingResult,
                                 Model model) {
+
+        // always needed on errors (so selects are filled)
+        model.addAttribute("teacherId", id);
+        addTeacherDropdownData(model);
 
         // check username uniqueness EXCEPT current teacher
         teacherRepository.findByUsername(teacherForm.getUsername())
@@ -120,8 +151,19 @@ public class AdminTeacherController {
                         "This username is already taken. Choose another."
                 ));
 
+        // check email uniqueness EXCEPT current teacher
+        teacherRepository.findByEmail(teacherForm.getEmail())
+                .filter(t -> !t.getId().equals(id))
+                .ifPresent(t -> bindingResult.rejectValue(
+                        "email",
+                        "error.email",
+                        "This email is already used. Choose another."
+                ));
+
+        // validate dropdown-like fields against allowed lists
+        validateTeacherDropdownFields(teacherForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("teacherId", id);
             return "admin/teacher-edit";
         }
 
@@ -139,7 +181,6 @@ public class AdminTeacherController {
         teacher.setNativeLanguage(teacherForm.getNativeLanguage());
         teacher.setCapacity(teacherForm.getCapacity());
 
-
         teacherRepository.save(teacher);
 
         return "redirect:/admin/teachers";
@@ -149,18 +190,40 @@ public class AdminTeacherController {
     @PostMapping("/admin/teachers/{id}/delete")
     public String deleteTeacher(@PathVariable Long id) {
 
-        Teacher teacher = teacherRepository.findById(id)
-                .orElse(null);
+        Teacher teacher = teacherRepository.findById(id).orElse(null);
 
         if (teacher != null) {
-            // najpierw kasujemy bookings i messages powiązane z tym nauczycielem
             bookingRepository.deleteByTeacher(teacher);
             messageRepository.deleteByTeacher(teacher);
-
-            // dopiero potem nauczyciela
             teacherRepository.delete(teacher);
         }
 
         return "redirect:/admin/teachers";
+    }
+
+    // ===================== helpers =====================
+
+    private void addTeacherDropdownData(Model model) {
+        model.addAttribute("languages", LANGUAGES);
+        model.addAttribute("nationalities", NATIONALITIES);
+        model.addAttribute("cities", CITIES);
+    }
+
+    private void validateTeacherDropdownFields(TeacherForm form, BindingResult bindingResult) {
+        if (form.getLanguage() != null && !form.getLanguage().isBlank() && !LANGUAGES.contains(form.getLanguage())) {
+            bindingResult.rejectValue("language", "invalid.language", "Please select a language from the list.");
+        }
+
+        if (form.getNativeLanguage() != null && !form.getNativeLanguage().isBlank() && !LANGUAGES.contains(form.getNativeLanguage())) {
+            bindingResult.rejectValue("nativeLanguage", "invalid.nativeLanguage", "Please select a native language from the list.");
+        }
+
+        if (form.getNationality() != null && !form.getNationality().isBlank() && !NATIONALITIES.contains(form.getNationality())) {
+            bindingResult.rejectValue("nationality", "invalid.nationality", "Please select a nationality from the list.");
+        }
+
+        if (form.getCity() != null && !form.getCity().isBlank() && !CITIES.contains(form.getCity())) {
+            bindingResult.rejectValue("city", "invalid.city", "Please select a city from the list.");
+        }
     }
 }
